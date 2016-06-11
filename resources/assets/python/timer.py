@@ -23,25 +23,37 @@ wiringpi.pinMode(LATCH_S2,1)
 wiringpi.pinMode(CLOCK_S2,1)
 
 def writeNo(number):
-	
-	# WRITE 0
+	if number == 0:
+		number = 63
+	elif number == 1:
+		number = 6
+	elif number == 2:
+		number = 91
+	elif number == 3:
+		number = 79
+	elif number == 4:
+		number = 102
+	elif number == 5:
+		number = 109
+	elif number == 6:
+		number = 125
+	elif number == 7:
+		number = 7
+	elif number == 8:
+		number = 127
+	elif number == 9
+		number = 103
+	else:
+		number = 63
+
+
 	wiringpi.digitalWrite(LATCH_S2, 0)
-	wiringpi.shiftOut(DATA_S2, CLOCK_S2, MSBFIRST, 63)
+	wiringpi.shiftOut(DATA_S2, CLOCK_S2, MSBFIRST, number)
 	wiringpi.digitalWrite(LATCH_S2, 1)
+
+def loop():
+	writeNo(i)
 	sleep(1.0)
+	pass
 
-
-	# WRITE 1
-	wiringpi.digitalWrite(LATCH_S2, 0)
-	wiringpi.shiftOut(DATA_S2, CLOCK_S2, MSBFIRST, 6)
-	wiringpi.digitalWrite(LATCH_S2, 1)
-	sleep(1.0)
-
-
-	# WRITE 2
-	wiringpi.digitalWrite(LATCH_S2, 0)
-	wiringpi.shiftOut(DATA_S2, CLOCK_S2, MSBFIRST, 91)
-	wiringpi.digitalWrite(LATCH_S2, 1)
-	sleep(1.0)
-
-writeNo(0)
+loop()
