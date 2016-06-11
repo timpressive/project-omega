@@ -41,7 +41,7 @@ def writeNo(number):
 		number = 7
 	elif number == 8:
 		number = 127
-	elif number == 9
+	elif number == 9:
 		number = 103
 	else:
 		number = 63
@@ -52,8 +52,9 @@ def writeNo(number):
 	wiringpi.digitalWrite(LATCH_S2, 1)
 
 def loop():
-	writeNo(i)
-	sleep(1.0)
-	pass
+	for i in range(0,10):
+		writeNo(i)
+		sleep(1.0)
+		pass
 
 loop()
