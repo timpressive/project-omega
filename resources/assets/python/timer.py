@@ -1,3 +1,5 @@
+#& /usr//bin/python2.7
+
 import wiringpi as wiringpi
 import time
 

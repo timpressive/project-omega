@@ -55,7 +55,7 @@ class AdminController extends Controller
         $input = $request->all();
 
         // Set duration to milliseconds
-        $duration = $input['hours']*3600000 + $input['minutes']*60000 + $input['seconds']*1000;
+        $duration = $input['hours']*3600 + $input['minutes']*60 + $input['seconds'];
 
         Settings::change('time', $duration);
 
@@ -64,7 +64,7 @@ class AdminController extends Controller
 
     protected function startcountdown() {
         $duration = Settings::getByTerm('time');
-        exec('python omega/countdown.py '.$duration, $out);
+        exec('sudo python /var/www/project-omega/resources/assets/python/timer.py '.$duration, $out);
 
         return $out;
     }

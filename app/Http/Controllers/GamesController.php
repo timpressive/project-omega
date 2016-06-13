@@ -37,7 +37,7 @@ class GamesController extends Controller
 					return redirect('decryptie/level-3');
 					break;
 			}
-			
+
 			return view('games.mastermind')->with(['level' => $level, 'redirect' => $redirect]);
     	} else {
     		return redirect('/');
@@ -51,7 +51,7 @@ class GamesController extends Controller
     }
 
 	protected function console(Request $request) {
-		if(Control::hasAccess() && Control::hasPin()) {
+		if(Control::hasAccess() && !Control::hasPin()) {
 			if (!Session::has('decrypted-level') || Session::get('decrypted-level') < 3) {
 				if ($request->url() == url('netcat')) {
 					return view('games.console');
@@ -69,7 +69,7 @@ class GamesController extends Controller
 		// if file is found
 		if (File::exists(storage_path('app/public/files/'.$file))) {
 			$output = File::get(storage_path('app/public/files/'.$file));
-			
+
 			if ($file == 'wachtwoorden.txt') {
 				$access = Settings::getByTerm('access-code');
 				$pin = Settings::getByTerm('pin-code');
@@ -79,7 +79,7 @@ class GamesController extends Controller
 				$output = str_replace('<pin>', $pin, $output);
 				$output = str_replace('<console>', $console, $output);
 			}
-			
+
 			return nl2br(str_replace(' ', '&nbsp;', $output));
 		} else {
 			return 'error';
@@ -88,9 +88,9 @@ class GamesController extends Controller
 
 	protected function keypad(Request $request) {
 		if($request->ajax()) {
-			exec('sudo python /home/pi/omega/keypad.py', $output);
+			exec('sudo python /var/www/project-omega/resources/assets/python/keypad.py', $output);
 
-			Session::put('pin-code', 1)
+			Session::put('pin-code', 1);
 			return $output;
 		}
 	}
