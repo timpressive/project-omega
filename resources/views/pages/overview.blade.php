@@ -1,24 +1,48 @@
 @extends('layout.main')
 @section('title', 'Overzicht')
 @section('content')
-<div class="starter-template">
+<div id="overview">
 	<main>
-		<h2>Overzicht</h2>
-		<p>
-			Dit is het besturingspaneel voor Project Omega. Hierlangs wordt al het onderhoud uitgevoerd.<br>
-			Voor hulp: neem contact op met de technische dienst.
-		</p>
-		<p>Grote veranderingen en interacties gebeuren via de <a class="console" href="console">console</a>.</p>
-
-		<h2>Status</h2>
-		<div class="stats pull-right">
-			<p>Energieverbruik: <span class="pull-right">1.5W</span></p>
-			<p>Afsluiting: <span class="green pull-right">INTACT</span></p>
-			<p>Beveiliging: <span class="green pull-right">100%</span></p>
-			<p class="temp-label">Temperatuur: <span class="temp-label pull-right">3.08°C</span></p>
+		<div class="row">
+			<div class="col-md-4 profile">
+				<img src="{{ asset('img/profile.png') }}" alt="profile">
+				<div class="ident">
+					<h5>P. SELIE</h5>
+					<h5>ID: 7224</h5>
+					<h5>LAATST ONLINE: <span class="red">ONBEKEND</span></h5>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<h1>OVERZICHT</h1>
+				<p>
+					Dit is het besturingspaneel voor Project Omega. Hierlangs wordt al het onderhoud uitgevoerd.<br>
+					Voor hulp: neem contact op met de technische dienst.
+				</p>
+				<p>Grote veranderingen en interacties gebeuren via de <a class="console" href="console">console</a>.</p>
+			</div>	
 		</div>
-		<div class="temp">
-			<div id="temp">
+
+		<h2>STATUS</h2>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="progress">
+					<div class="progress-bar"></div>
+				</div>
+				<div class="progress">
+					<div class="progress-bar"></div>
+				</div>
+				<div class="progress">
+					<div class="progress-bar"></div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				@include('partial.equalizer')
+			</div>
+			<div class="col-md-2 stats">
+				<p><i class="fa fa-flash"></i><span class="green pull-right">1.5W</span></p>
+				<p><i class="fa fa-lock"></i> <span class="green pull-right">99.98%</span></p>
+				<p><i class="fa fa-shield"></i><span class="green pull-right">100%</span></p>
+				<p class="temp-label">Temperatuur: <span class="temp-label pull-right">3.08°C</span></p>
 			</div>
 		</div>
 	</main>
@@ -26,9 +50,7 @@
 @stop
 
 @section('js')
-	<script type="text/javascript" src="{{ asset('js/lib/jqwidgets/jqxcore.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/lib/jqwidgets/jqxchart.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/lib/jqwidgets/jqxgauge.js') }}"></script>
+	<script src="{{ asset('js/equalizer.js') }}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 		    $('#temp').jqxGauge({

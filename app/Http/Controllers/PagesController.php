@@ -14,7 +14,7 @@ class PagesController extends Controller
         if (Control::hasAccess()) {
             return redirect('overzicht');
         }
-    	return view('home');
+    	return view('home')->with(['title' => 'Authenticatie']);
     }
 
     // user overview screen

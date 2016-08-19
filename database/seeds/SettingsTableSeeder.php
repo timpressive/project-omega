@@ -32,6 +32,10 @@ class SettingsTableSeeder extends Seeder
         ]);
 
         DB::table('settings')->insert([
+            'term' => 'console-pass',
+            'value' => 'password',
+        ]);
+        DB::table('settings')->insert([
             'term' => 'UID',
             'value' => '01020304050607',
         ]);

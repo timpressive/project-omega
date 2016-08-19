@@ -1,23 +1,36 @@
-h1, h2, h3, h4, #console {
+h1, h2, h3, h4, h5, h6, #console {
   font-family: 'Commodore'; }
 
-.biohazard {
-  background-color: #FFFF00;
-  width: 10em;
-  padding: .1%;
-  border-radius: 50%;
-  margin: 0 auto; }
-  .biohazard img {
-    width: 100%; }
-
-body > .container {
-  padding: 2em 5%; }
+body {
+  background-color: #222;
+  color: #fff; }
+  body > .container {
+    padding: 2em 5%; }
 
 form#auth {
-  margin: 0 auto; }
+  margin: 0 auto;
+  width: 60%;
+  font-size: 1.5em; }
   form#auth button.submit {
-    width: 100%;
-    margin-top: 1em; }
+    width: 2em;
+    color: #fff;
+    background-color: #000;
+    border: none;
+    height: 2em; }
+  form#auth input {
+    border: none;
+    border-bottom: 1px solid black;
+    box-shadow: none;
+    font-size: 1em;
+    width: calc(100% - 4em);
+    float: left;
+    height: 2em;
+    text-align: center; }
+  form#auth .toggle-visible {
+    float: left;
+    font-size: 1.2em;
+    line-height: 1.7em;
+    padding-right: .5em; }
 
 ul {
   list-style-type: none; }
@@ -29,9 +42,9 @@ ul {
 
 body:not(#admin) .navbar {
   border: none;
-  border-bottom: 1px solid black; }
+  border-bottom: 1px solid #32cd00; }
   body:not(#admin) .navbar #logo {
-    padding: 1em;
+    padding: 1em 2em;
     float: left;
     max-width: 25%; }
     @media (max-width: 768px) {
@@ -65,16 +78,81 @@ body:not(#admin) .navbar {
         body:not(#admin) .navbar nav ul li a {
           padding: .5em;
           display: inline-block;
-          color: #000; }
+          color: #32cd00;
+          border: 2px solid #222;
+          border-bottom: none; }
           @media (max-width: 768px) {
             body:not(#admin) .navbar nav ul li a {
               background-color: #333;
-              color: white;
+              color: #32cd00;
               width: 100%; } }
-          body:not(#admin) .navbar nav ul li a.active, body:not(#admin) .navbar nav ul li a:hover {
-            color: white;
-            background-color: #000;
+          body:not(#admin) .navbar nav ul li a.active, body:not(#admin) .navbar nav ul li a:hover, body:not(#admin) .navbar nav ul li a:focus, body:not(#admin) .navbar nav ul li a:active {
+            border-color: #32cd00;
             text-decoration: none; }
+
+#overview {
+  font-size: 1.2em; }
+  #overview h1, #overview h2, #overview h3, #overview h4, #overview h5, #overview h6 {
+    color: #32cd00; }
+  #overview .profile {
+    float: right;
+    background-color: rgba(50, 205, 0, 0.2);
+    margin-bottom: 2em;
+    border: 1px solid #32cd00; }
+    #overview .profile .ident {
+      text-align: right;
+      padding: 1em; }
+    #overview .profile img {
+      width: 100px;
+      padding: 1em 0;
+      margin: 1em 0;
+      float: left;
+      background-color: #222; }
+  #overview a {
+    color: #32cd00; }
+  @media (max-width: 768px) {
+    #overview .stats {
+      width: 80%;
+      margin: 0 10%; } }
+  #overview .stats .green {
+    color: #32cd00 !important; }
+  @media (min-width: 371px) {
+    #overview .stats .temp-label {
+      display: none; } }
+  #overview .stats .temp-label span {
+    color: #F2A100; }
+  #overview #equalizer {
+    height: 50px;
+    width: 150px;
+    margin: auto; }
+    #overview #equalizer span {
+      background-color: #32cd00;
+      display: block;
+      width: 1px;
+      float: left;
+      margin-right: 2px; }
+  #overview .progress {
+    background-color: inherit;
+    border-radius: 0; }
+    #overview .progress .progress-bar {
+      background-color: #32cd00; }
+  #overview .fa {
+    color: #32cd00; }
+
+main#home {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  margin: auto;
+  width: 50%; }
+  main#home #logo {
+    width: 75%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 5em; }
 
 #console {
   margin: 0;
@@ -158,7 +236,8 @@ body:not(#admin) .navbar {
     display: inline-block;
     text-align: center;
     width: 75%;
-    float: left; }
+    float: left;
+    color: #555; }
     @media (max-width: 768px) {
       #mastermind .colors {
         width: 75%; }
@@ -190,34 +269,15 @@ body:not(#admin) .navbar {
       width: 50%;
       margin-top: 2em;
       display: inline-block;
-      text-align: center; }
+      text-align: center;
+      background-color: #27a200; }
+    #mastermind .col-md-12 .message-success {
+      margin-top: 2em; }
+    #mastermind .col-md-12 .proceed {
+      background-color: #27a200; }
 
-.temp {
-  float: left; }
-  .temp #temp circle {
-    display: none; }
-  @media (max-width: 370px) {
-    .temp #temp {
-      display: none; } }
-  .temp h4 {
-    text-align: center; }
-
-@media (max-width: 768px) {
-  .stats {
-    width: 80%;
-    margin: 0 10%; } }
-@media (min-width: 769px) {
-  .stats {
-    margin-top: 5em;
-    width: 25%; } }
-.stats .green {
-  color: #32CD00 !important; }
-@media (min-width: 371px) {
-  .stats .temp-label {
-    display: none; } }
-.stats .temp-label span {
-  color: #F2A100; }
-
+#admin h2 {
+  text-align: center; }
 #admin > .container {
   padding-top: 4em; }
 #admin .navbar-brand {
@@ -229,32 +289,50 @@ body:not(#admin) .navbar {
 #admin .settings {
   width: 500px;
   margin: 0 auto; }
-  #admin .settings > div {
-    margin-top: 3em; }
   @media (max-width: 768px) {
     #admin .settings {
       width: 90%; } }
-  #admin .settings ul {
+  #admin .settings > div {
+    margin-top: 3em; }
+  #admin .settings form ul {
     padding-left: 0; }
-  #admin .settings input[type="number"] {
-    width: 3em; }
-  #admin .settings input {
-    width: 100%; }
-  #admin .settings .btn-submit {
+  #admin .settings form input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding: .5em; }
+    #admin .settings form input[type="number"] {
+      width: 3em; }
+    #admin .settings form input:focus {
+      outline: solid #000 thin; }
+  #admin .settings form .btn-submit {
     margin-top: 1em; }
-    #admin .settings .btn-submit:hover, #admin .settings .btn-submit:active, #admin .settings .btn-submit:focus {
+    #admin .settings form .btn-submit:hover, #admin .settings form .btn-submit:active, #admin .settings form .btn-submit:focus {
       background-color: #32BD00 !important;
       color: white !important; }
   #admin .settings .cancel {
     float: right; }
 #admin .controls {
-  width: 500px; }
+  width: 500px;
+  margin: 0 auto; }
   @media (max-width: 768px) {
     #admin .controls {
       width: 90%;
       margin: 0 auto; } }
-  #admin .controls button:nth-child(even) {
-    float: right; }
+  #admin .controls .btn-start, #admin .controls .btn-stop {
+    background-color: #36b729;
+    color: #fff;
+    width: 100%;
+    padding: .5em 0;
+    display: block;
+    text-align: center; }
+    #admin .controls .btn-start:active, #admin .controls .btn-stop:active, #admin .controls .btn-start:focus, #admin .controls .btn-stop:focus, #admin .controls .btn-start:hover, #admin .controls .btn-stop:hover {
+      text-decoration: none; }
+  #admin .controls .btn-stop {
+    background-color: #df3232; }
+  #admin .controls .col-md-6 button {
+    width: 100%; }
 
 .navbar-toggle:hover, .navbar-toggle:active, .navbar-toggle:focus {
   color: #222; }

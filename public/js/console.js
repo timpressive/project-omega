@@ -34,14 +34,14 @@ var Console = {
 			case 'exec':
 				if (input[1] == 'protocol' && input[2] == '66') {
 					Console.win();
-				} else { Console.setOutput('functie incorrect'); }
+				} else { Console.setOutput('functie incorrect', 'red'); }
 				break;
 			case 'ls':
 				Console.list();
 				break;
 			case 'open':
 				if (input[1] != null) { Console.open(input[1]); }
-				else { Console.setOutput('de functie "open" verwacht een bestandsnaam.'); }
+				else { Console.setOutput('de functie "open" verwacht een bestandsnaam.', 'red'); }
 				break;
 			case 'clear':
 				Console.clear();
@@ -49,16 +49,16 @@ var Console = {
 			case 'j':
 			case 'ja':
 				if (Console.stage > 0) { Console.handle66(true); }
-				else { Console.setOutput('kan functie "j" niet vinden.'); }
+				else { Console.setOutput('kan functie "j" niet vinden.', 'red'); }
 				break;
 			case 'n':
 			case 'nee':
 				if (Console.stage > 0) { Console.handle66(false) }
-				else { Console.setOutput('kan functie "n" niet vinden.'); }
+				else { Console.setOutput('kan functie "n" niet vinden.', 'red'); }
 				break;
 			default:
 				if (Console.stage > 0) { Console.handle66(fn); }
-				else { Console.setOutput('kan functie "' + fn + '" niet vinden'); }
+				else { Console.setOutput('kan functie "' + fn + '" niet vinden', 'red'); }
 				break;
 		}
 	},
@@ -68,7 +68,7 @@ var Console = {
 		$.get(base_url+'/json/file/'+file, function (content) {
 	    	setTimeout(function () {
 	    		if (content == 'error') {
-	    			Console.setOutput('Bestand "' + file + '" niet gevonden');
+	    			Console.setOutput('Bestand "' + file + '" niet gevonden', 'red');
 					$('#console > .indicator').show();
 	    		} else {
 					Console.setOutput(file + ' openen...');
@@ -112,8 +112,19 @@ var Console = {
 	clear: function() { $('#output').empty(); },
 
 	// Output
-	setOutput: function(string) {
+	setOutput: function(string, color = false) {
 		var $data = $('<p/>').html(string);
+		if (color) {
+			switch (color) {
+				case 'green':
+					color = '#32CD00';
+					break;
+				case 'red':
+					color = '#CD0000';
+					break;
+			}
+			$data.css('color', color);
+		}
 		$('#output').append($data);
 
 		$currentP = $('#output p:last-child');
@@ -151,7 +162,7 @@ var Console = {
 					Console.setOutput('activeren van nood protocols...');
 					setTimeout(function () {
 
-						Console.setOutput('klaar!');
+						Console.setOutput('klaar!', 'green');
 						setTimeout(function () {
 
 							Console.setOutput('overschrijven van beveiliging');
@@ -189,14 +200,14 @@ var Console = {
 						Console.setOutput('koeling loskoppelen...');
 						setTimeout(function () {
 
-							Console.setOutput('klaar!');
+							Console.setOutput('klaar!', 'green');
 							setTimeout(function () {
 
 								Console.setOutput('virus klaarmaken voor verplaatsing');
 								setTimeout(function () {
 
 									Console.setOutput('automatische verplaatsing mislukt. neem de manuele controle over.');
-									Console.setOutput('leidt het virus langs de juiste weg naar buiten.');
+									Console.setOutput('leid het virus langs de juiste weg naar buiten.');
 									Console.setOutput('Let op de snelheid! Als je te snel gaat treedt de veiligheid in werking en stopt het virus.');
 									Console.setOutput('<br><br>Ben je klaar? [j/n]');
 								
@@ -222,11 +233,13 @@ var Console = {
 					setTimeout(function () {
 
 						setTimeout(function() {
+
+							Console.setOutput('<br><br><br>')
 							Console.setOutput('Virus omgeleid naar container. Het is nu veilig om de container te verwijderen');
 							Console.setOutput('Aftellen wordt gestopt...');
 							Console.stage = 6;
 
-							win();
+							Console.win();
 						}, 800);
 						
 					}, 200);
@@ -248,10 +261,10 @@ var Console = {
 		switch (Console.stage) {
 			case 1:
 				if (input == Console.password) {
-					Console.setOutput('wachtwoord correct!');
+					Console.setOutput('wachtwoord correct!', 'green');
 					Console.win();
 				} else {
-					Console.setOutput('wachtwoord incorrect.');
+					Console.setOutput('wachtwoord incorrect.', 'red');
 					Console.stage = 0;
 				}
 				break;
@@ -261,7 +274,7 @@ var Console = {
 			case 5:
 				if (input) { Console.win(); }
 				else {
-					Console.setOutput('bewerking geannuleerd. Protocol 66 niet uitgevoerd.');
+					Console.setOutput('bewerking geannuleerd. Protocol 66 niet uitgevoerd.', 'red');
 					Console.stage = 0;
 				}
 				break;
@@ -269,7 +282,7 @@ var Console = {
 	},
 	loopPercentages: function(i) {
 		setTimeout(function () {
-			if (i == 10) { Console.setOutput('100% voltooid!') }
+			if (i == 10) { Console.setOutput('100% voltooid!', 'green') }
 			else { Console.setOutput(i+'0% voltooid...'); }
 
 			i++;

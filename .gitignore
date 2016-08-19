@@ -45,3 +45,11 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+# Laravel
+
+/vendor
+/node_modules
+/public/storage
+/.sass-cache

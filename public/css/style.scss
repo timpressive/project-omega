@@ -3,30 +3,33 @@ $tablet: "(min-width: 769px)";
 $mobile: "(max-width: 768px)";
 $portrait: "screen and (orientation:portrait)";
 
+$theme: #32cd00;
+$bg: #222;
 
-h1,h2,h3, h4, #console { font-family: 'Commodore'; }
 
-.biohazard {
-	background-color: #FFFF00; width: 10em; padding: .1%; border-radius: 50%; margin: 0 auto;
-	img { width: 100%; }
-}
+h1,h2,h3, h4, h5, h6, #console { font-family: 'Commodore'; }
 
 body {
+	background-color: $bg; color: #fff;
 	>.container {padding: 2em 5%;}
 }
 form#auth {
-	margin: 0 auto;
-	button.submit { width: 100%; margin-top: 1em; }
+	margin: 0 auto; width: 60%; font-size: 1.5em;
+	button.submit { width: 2em; color: #fff; background-color: #000; border: none; height: 2em; }
+	input {
+		border: none; border-bottom: 1px solid black; box-shadow: none; font-size: 1em;
+		width: calc(100% - 4em); float: left; height: 2em; text-align: center;
+	}
+	.toggle-visible { float: left; font-size: 1.2em; line-height: 1.7em; padding-right: .5em; }
 }
 
 ul { list-style-type: none; }
 .btn-check { border-radius: 50%; background-color: #5F5; border: none; }
 
 body:not(#admin) .navbar {
-	border: none;
-	border-bottom: 1px solid black;
+	border: none; border-bottom: 1px solid $theme;
 	#logo {
-		padding: 1em; float: left; max-width: 25%;
+		padding: 1em 2em; float: left; max-width: 25%;
 	@media #{$mobile} { max-width: 85%; padding: 1em 10% 1em 5%; }
 	}
 	nav {
@@ -41,12 +44,49 @@ body:not(#admin) .navbar {
 				@media #{$mobile} { width: 100%; }
 				float: left; font-size: 1.5em;
 				a {
-					@media #{$mobile} { background-color: #333; color: white; width: 100%; }
-					padding: .5em; display: inline-block; color: #000;
-					&.active, &:hover { color: white; background-color: #000; text-decoration: none; }
+					padding: .5em; display: inline-block; color: $theme; border: 2px solid $bg; border-bottom: none;
+					@media #{$mobile} { background-color: #333; color: $theme; width: 100%; }
+					&.active, &:hover, &:focus, &:active { border-color: $theme; text-decoration: none; }
 				}
 			}
 		}
+	}
+}
+
+// OVERVIEW
+#overview {
+	font-size: 1.2em;
+	h1, h2, h3, h4, h5, h6 { color: $theme; }
+	.profile {
+		float: right; background-color: rgba(50,205,0,.2); margin-bottom: 2em;
+		border: 1px solid $theme;
+		.ident {text-align: right; padding: 1em; }
+		img { width: 100px; padding: 1em 0; margin: 1em 0; float: left; background-color: $bg; }
+	}
+	a { color: $theme; }
+	.stats {
+		@media #{$mobile} { width: 80%; margin: 0 10%; }
+		.green { color: $theme !important;}
+		.temp-label {
+			@media (min-width: 371px) { display: none; }
+			span { color: #F2A100; }
+		}
+	}
+	#equalizer {
+		height: 50px; width: 150px; margin: auto;
+		span { background-color: $theme; display: block; width: 1px; float: left; margin-right: 2px; }
+	}
+	.progress {
+		background-color: inherit; border-radius: 0;
+		.progress-bar { background-color: $theme; }
+	}
+	.fa { color: $theme; }
+}
+
+main {
+	&#home {
+		position: absolute; top: 0; bottom: 0; left: 0; right: 0; height: 50%; margin: auto; width: 50%;
+		#logo { width: 75%; margin: 0 auto; display: block; margin-bottom: 5em; }
 	}
 }
 
@@ -107,7 +147,7 @@ body:not(#admin) .navbar {
 	#portrait-label { display: none; }
 	.proceed { display: none; }
 	.colors {
-		display: inline-block; text-align: center; width: 75%; float: left;
+		display: inline-block; text-align: center; width: 75%; float: left; color: #555;
 		@media #{$mobile} {
 			width: 75%;
 			i { font-size: 3em !important; }
@@ -133,32 +173,15 @@ body:not(#admin) .navbar {
 	}
 	.col-md-12 {
 		text-align: center;
-		#check { width: 50%; margin-top: 2em; display: inline-block; text-align: center; }
-	}
-}
-
-// OVERVIEW
-.temp {
-	float: left;
-	#temp {
-		circle { display: none; }
-		@media (max-width: 370px) { display: none; }
-	}
-	h4 {text-align: center;}
-}
-.stats {
-	@media #{$mobile} { width: 80%; margin: 0 10%; }
-	@media #{$tablet} { margin-top: 5em; width: 25%; }
-
-	.green { color: #32CD00 !important;}
-	.temp-label {
-		@media (min-width: 371px) { display: none; }
-		span { color: #F2A100; }
+		#check { width: 50%; margin-top: 2em; display: inline-block; text-align: center; background-color: #27a200; }
+		.message-success { margin-top: 2em; }
+		.proceed { background-color: #27a200; }
 	}
 }
 
 // ADMIN PAGES
 #admin {
+	h2 { text-align: center; }
 	&>.container { padding-top: 4em; }
 	.navbar-brand {
 		padding: .5em 1em;
@@ -166,30 +189,36 @@ body:not(#admin) .navbar {
 	}
 	.nav {float: right;}
 	.settings {
-		>div { margin-top: 3em; }
 		width: 500px; margin: 0 auto;
 		@media #{$mobile} { width: 90%; }
-
-		ul{ padding-left: 0; }
-		input[type="number"] {
-			width: 3em;
-		}
-		input {width: 100%;}
-
-		.btn-submit {
-			margin-top: 1em;
-			&:hover, &:active, &:focus { background-color: #32BD00 !important; color: white !important; }
+		&>div { margin-top: 3em; }
+		form {
+			ul{ padding-left: 0; }
+			input {
+				width: 100%; border: none; border-bottom: 1px solid black; text-align: center; padding: .5em;
+				&[type="number"] { width: 3em; }
+				&:focus { outline: solid #000 thin; }
+			}
+			.btn-submit {
+				margin-top: 1em;
+				&:hover, &:active, &:focus { background-color: #32BD00 !important; color: white !important; }
+			}
 		}
 		.cancel { float: right; }
 	}
 	.controls {
-		width: 500px;
+		width: 500px; margin: 0 auto;
 		@media #{$mobile} { width: 90%; margin: 0 auto; }
-		button:nth-child(even) { float: right; }
+		.btn-start {
+			background-color: #36b729; color: #fff; width: 100%; padding: .5em 0; display: block; text-align: center;
+			&:active, &:focus, &:hover { text-decoration: none; }
+		}
+		.btn-stop { @extend .btn-start; background-color: #df3232; }
+		.col-md-6 button { width: 100%; }
 	}
 }
 .navbar-toggle {
-	&:hover, &:active, &:focus { color: #222; }
+	&:hover, &:active, &:focus { color: $bg; }
 }
 
 #login {

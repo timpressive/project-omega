@@ -2,7 +2,7 @@
 @section('title', 'Level 1')
 @section('content')
 	<h2 class="text-center">DECRYPTIE: NIVEAU {{ $level }}</h2>
-	<div id="mastermind" class="container">
+	<div id="mastermind">
 		<h4 id="portrait-label">Dit deel is enkel beschikbaar in landschapsmodus (draai het toestel 90°)</h4>
 		<div class="attempts"></div>
 		<div class="row controls">
@@ -24,7 +24,7 @@
 			<div class="col-md-12">
 				<p class="message"></p>
 				<a href="{{ $redirect }}" class="proceed btn btn-success">Ga verder >></a>
-				<button id="check" class="btn btn-primary">Nakijken</button>
+				<button id="check" class="btn">Nakijken</button>
 			</div>
 		</div>
 	</div>

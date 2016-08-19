@@ -1,16 +1,28 @@
 @extends('layout.main')
 @section('title', 'Authenticatie')
 @section('content')
-<div class="starter-template">
-	<div class="biohazard"><img src="{{ asset('img/biohazard.png' )}}" alt=""></div>
-	<h1 class="text-center">PROJECT OMEGA</h1>
-	<p class="lead text-center">toegangscode vereist</p>
+<main id="home">
+	<img id="logo" src="{{ asset('img/name-white.png') }}" alt="logo">
+	<h3 class="text-center">TOEGANGSCODE VEREIST</h3>
 	
-	@include('partial.error')
 	<form id="auth" method="POST" action="auth/access">
 		{{ csrf_field() }}
-		<input type="text" class="form-control" name="code">
-		<button type="submit" class="submit">CONTROLEREN</button>
+		<i class="toggle-visible fa fa-eye"></i>
+		
+		@include('partial.error')
+		<input type="password" class="form-control" name="code" placeholder="Geef code in...">
+		<button type="submit" class="submit"><i class="fa fa-chevron-right"></i></button>
 	</form>
-</div>
+</main>
+@stop
+@section('js')
+	<script>
+		$('.toggle-visible').click(function() {
+			$('.toggle-visible')
+				.toggleClass('fa-eye')
+				.toggleClass('fa-eye-slash');
+			if ($('#auth input[name="code"]').attr('type') == 'password') { $('#auth input[name="code"]').attr('type', 'text'); }
+			else { $('#auth input[name="code"]').attr('type', 'password'); }
+		});
+	</script>
 @stop

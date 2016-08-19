@@ -12,8 +12,9 @@
 		</title>
 	</head>
 	<body>
+		@if(!isset($title))
 		<div class="navbar">
-			<img src="img/name.png" id="logo" alt="logo">
+			<img src="img/name-white.png" id="logo" alt="logo">
 			@if (session()->has('access') && session('access') == 1)
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-navicon"></i></button>
@@ -26,6 +27,7 @@
 				</nav>
 			@endif
 		</div>
+		@endif
 		<div class="container">
 			@yield('content')
 		</div>

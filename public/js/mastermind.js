@@ -66,14 +66,13 @@ function verify() {
 			if (code[i] === answers[i]) {
 				correct++;
 				color++;
-				console.warn(i);
+
 				answers[i] = null;
 				code[i] = null;
 			}
 
 			// if color is in guess array
 			else if ($.inArray(answers[i], code) > -1) {
-				console.log(i);
 				color++;
 				code[$.inArray(answers[i], code)] = null;
 				answers[i] = null;
@@ -91,7 +90,6 @@ function verify() {
 		if (tries >= maxTries) { $('.controls').hide(); }
 
 		tries++;
-		console.log('');
 	}
 }
 
@@ -181,12 +179,12 @@ function createCode() {
 function completedSequence() {
 	var complete = true;
 	$.each($('.controls .colors>i'), function (i, $el) {
-		if ($($el).css('color') == 'rgb(51, 51, 51)') {
+		if ($($el).css('color') == 'rgb(85, 85, 85)') {
 			complete = false;
 		}
 	});
 
-	if (complete == false) { alert('alles invullen, hé bazeke!'); }
+	if (complete == false) { alert('Oeps! Je hebt niet alles ingevuld!'); }
 
 	return complete;
 }
