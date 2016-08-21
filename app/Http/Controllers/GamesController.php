@@ -15,19 +15,22 @@ class GamesController extends Controller
 
 	protected function keypad(Request $request) {
 		if($request->ajax()) {
-			if (Control::hasPin()) {
+			if (!Control::hasPin()) {
 				$pin = Settings::getByTerm('pin-code');
-				exec('sudo python /var/www/project-omega/resources/assets/python/keypad.py '.$pin, $output);
-
-				Session::put('pin-code', 1);
+				$output = shell_exec('sudo python /var/www/project-omega/resources/assets/python/keypad.py '.$pin);
+				if ($output) {
+					Session::put('pin-code', 1);
+				}
 				return $output;
-			} else {
-				return redirect('console');
 			}
 		}
 	}
 	protected function pinCode() {
-		return view('games.pin');
+		if (Control::hasPin()) {
+			return redirect('console');
+		} else {
+			return view('games.pin');
+		}
 	}
 	protected function mastermind($level) {
 		// Check for access (homepage authentication)
@@ -72,15 +75,19 @@ class GamesController extends Controller
 	}
 
 	protected function console(Request $request) {
-		if(Control::hasAccess() && !Control::hasPin()) {
-			if (!Session::has('decrypted-level') || Session::get('decrypted-level') < 3) {
-				if ($request->url() == url('netcat')) {
-					return view('games.console');
+		if (Control::hasAccess()) {
+			if (Control::hasPin()) {
+				if (!Session::has('decrypted-level') || Session::get('decrypted-level') < 3) {
+					if ($request->url() == url('netcat')) {
+						return view('games.console');
+					}
+					Session::forget('decrypted-level');
+					return redirect('decryptie/level-1');
 				}
-				Session::forget('decrypted-level');
-				return redirect('decryptie/level-1');
+				return view('games.console');
+			} else {
+				return redirect('pin-code');
 			}
-			return view('games.console');
 		} else {
 			return redirect('/');
 		}

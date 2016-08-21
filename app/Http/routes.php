@@ -21,7 +21,7 @@ Route::post('login', 'Auth\AuthController@postLogin');
 Route::post('auth/access', 'Auth\AuthController@access');
 
 Route::get('overzicht', 'PagesController@overview');
-Route::get('pin-code', 'GameController@pinCode');
+Route::get('pin-code', 'GamesController@pinCode');
 Route::get('decryptie/level-{level}', 'GamesController@mastermind');
 Route::get('game/decrypt-level', 'GamesController@decryptlevel');
 

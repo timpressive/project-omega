@@ -1,10 +1,14 @@
+#!/usr/bin/python2.7
+
+from tendo import singleton
+me = singleton.SingleInstance()
 import sys
 
 import RPi.GPIO as GPIO
 from time import sleep
 from Adafruit_CharLCD import Adafruit_CharLCD
 
-pin = sys.argv[i]
+pin = sys.argv[1]
 GPIO.setmode(GPIO.BCM)
 lcd = Adafruit_CharLCD(rs=24, en=23,
                        d4=22, d5=27, d6=17, d7=18,
@@ -22,7 +26,7 @@ MATRIX = [ ["1","2","3"],
 	   ["7","8","9"],
 	   ["*","0","#"] ]
 
-ROW = [26,19,13,26]
+ROW = [26,19,13,6]
 COL = [21,20,16]
 
 code = ""
@@ -62,7 +66,7 @@ def getCode():
 								lcd.set_backlight(0)
 
 								print "Correct!"
-								return "correct!"
+								return 1
 							else:
 								code = ""
 								lcd.clear()

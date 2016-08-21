@@ -15,8 +15,9 @@
 		$(function (e) {
 			$('.success').hide();
 			$.get('ajax/keypad', function (data) {
-				if (data == "correct!") {
-					$('.success').show();					
+				console.log(data);
+				if (data) {
+					$('.success').show();
 				}
 			});
 		});
