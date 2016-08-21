@@ -14,6 +14,11 @@ lcd = Adafruit_CharLCD(rs=24, en=23,
                        d4=22, d5=27, d6=17, d7=18,
                        cols=16, lines=2)
 
+# turn on screen
+backlight = 4
+GPIO.setup(backlight, GPIO.OUT)
+GPIO.output(backlight, 1)
+
 header = "Geef pincode in:\n"
 
 lcd.clear()
@@ -66,6 +71,9 @@ def getCode():
 								lcd.set_backlight(0)
 
 								print "Correct!"
+
+								#turn off screen
+								GPIO.output(backlight, 0)
 								return 1
 							else:
 								code = ""

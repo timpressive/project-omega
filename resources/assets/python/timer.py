@@ -31,7 +31,9 @@ CLOCK_S1 = 67
 MSBFIRST = 1
 LSBFIRST = 0
 
-OFF = 10
+OFF = 83
+PAUSE = 84
+PENALTY = 85
 
 # WIRINGPI SETUP
 wiringpi.wiringPiSetup()
@@ -60,6 +62,7 @@ def padZero(number):
 	return number
 
 def countdown():
+	
 	remaining = int(end - time.time())
 
 	while remaining > 0:
@@ -94,6 +97,19 @@ def countdown():
 
 		writeNo(int(s2), LATCH_S2, DATA_S2, CLOCK_S2)
 #		writeNo(OFF, LATCH_S2, DATA_S2, CLOCK_S2)
+		
+		if wiringPi.digitalRead(PENALTY) == 1 && (end - time.time() > 300):
+                	end -= 300
+			wiringpi.digitalWrite(PENALTY, 0)
+
+		if wiringPi.digitalRead(PAUSE) == 1:
+			end = time.time() + remaining
+
+
+		if wiringPi.digitalRead(OFF) == 1:
+			wiringpi.digitalWrite(OFF, 0)
+			turnOff()
+
 		remaining = int(end - time.time())
 		pass
 	
@@ -104,6 +120,8 @@ def countdown():
 	time.sleep(2.5)
 	print "Apocalypse gestart"
 
+# takes latch, clock and data pins and number to be written  for positions
+# switches number to binary representation on 7-seg display and shifts it out
 def writeNo(number, latch_pin, data_pin, clock_pin):
 	if number == 0:
 		number = 63
@@ -134,5 +152,31 @@ def writeNo(number, latch_pin, data_pin, clock_pin):
 	wiringpi.digitalWrite(latch_pin, 0)
 	wiringpi.shiftOut(data_pin, clock_pin, MSBFIRST, number)
 	wiringpi.digitalWrite(latch_pin, 1)
+
+# Remove all writing from 7-seg displays by setting all segments low
+def turnOff():
+	wiringpi.digitalWrite(LATCH_S1, 0)
+	wiringpi.shiftOut(DATA_S1, CLOCK_S1, MSBFIRST, 0)
+	wiringpi.digitalWrite(LATCH_S1, 1)
+
+	wiringpi.digitalWrite(LATCH_S2, 0)
+        wiringpi.shiftOut(DATA_S2, CLOCK_S2, MSBFIRST, 0)
+        wiringpi.digitalWrite(LATCH_S2, 1)
+
+	wiringpi.digitalWrite(LATCH_M1, 0)
+        wiringpi.shiftOut(DATA_M1, CLOCK_M1, MSBFIRST, 0)
+        wiringpi.digitalWrite(LATCH_M1, 1)
+
+	wiringpi.digitalWrite(LATCH_M2, 0)
+        wiringpi.shiftOut(DATA_M2, CLOCK_M2, MSBFIRST, 0)
+        wiringpi.digitalWrite(LATCH_M2, 1)
+
+	wiringpi.digitalWrite(LATCH_H1, 0)
+        wiringpi.shiftOut(DATA_H1, CLOCK_H1, MSBFIRST, 0)
+        wiringpi.digitalWrite(LATCH_H1, 1)
+
+	wiringpi.digitalWrite(LATCH_H2, 0)
+        wiringpi.shiftOut(DATA_H2, CLOCK_H2, MSBFIRST, 0)
+        wiringpi.digitalWrite(LATCH_H2, 1)
 
 countdown()
