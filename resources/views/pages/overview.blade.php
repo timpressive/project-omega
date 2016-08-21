@@ -53,36 +53,8 @@
 	<script src="{{ asset('js/equalizer.js') }}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-		    $('#temp').jqxGauge({
-				ranges: [{ startValue: 0, endValue: 3, style: { fill: '#6AFC6A', stroke: '#6AFC6A' }, endWidth: 10, startWidth: 1 },
-					{ startValue: 3, endValue: 5, style: { fill: '#FCF06A', stroke: '#FCA76A' }, endWidth: 15, startWidth: 10 },
-					{ startValue: 5, endValue: 6, style: { fill: '#FC6A6A', stroke: '#FC6A6A' }, endWidth: 20, startWidth: 15}],
-				ticksMinor: { interval: 10, size: '5%' },
-				ticksMajor: { interval: 20, size: '10%' },
-				value: 0,
-                labels: { interval: 1 },
-				max: 6,
-				caption: {
-					value: 'Temp.in °C',
-					position: 'bottom',
-					offset: [0, 10],
-					visible: true
-				},
-				colorScheme: 'scheme04',
-				animationDuration: 1200
-			});
-
-			$('.console').click(function (e) {
-				e.preventDefault();
-				console.error('click');
-				$.get('json/keypad', function (data) {
-					console.log(data);
-				});
-			});
 
 		    setInterval(function() {
-		    	var val = Math.random() * (3.55 - 2.9) + 2.9;
-				$('#temp').jqxGauge({value: val});
 				$('.stats .temp-label span').text(Math.round(val*100)/100 + '°C');
 				if (val > 3) {
 					$('.stats .temp-label span').removeClass('green');
@@ -90,6 +62,7 @@
 					$('.stats .temp-label span').addClass('green');
 				}
 		    }, 700);
+
 		});
 	</script>
 @stop

@@ -15,7 +15,7 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('term')->unique();
-            $table->string('value');
+            $table->text('value');
         });
     }
 
@@ -26,6 +26,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        //
+        Schemo::drop('settings');
     }
 }

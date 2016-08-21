@@ -18,10 +18,15 @@
 				</div>
 				<nav class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li {{{ (Request::is('admin') || Request::is('admin/dashboard')) ? 'class=active' : '' }}}><a href="admin/dashboard">Dashboard</a></li>
-						<li {{{ (Request::is('admin/instructions')) ? 'class=active' : '' }}}><a href="admin/instructions">Instructies</a></li>
-						<li {{{ (Request::is('admin/game')) ? 'class=active' : '' }}}><a href="admin/game">Spelbeheer</a></li>
-						<li {{{ (Request::is('admin/settings')) ? 'class=active' : '' }}}><a href="admin/settings">Instellingen <i class="fa fa-cogs"></i></a></li>
+						@if (Auth::check())
+							<li {{{ (Request::is('admin') || Request::is('admin/dashboard')) ? 'class=active' : '' }}}><a href="admin/dashboard">Dashboard</a></li>
+							<li {{{ (Request::is('admin/instructions')) ? 'class=active' : '' }}}><a href="admin/instructions">Instructies</a></li>
+							<li {{{ (Request::is('admin/game')) ? 'class=active' : '' }}}><a href="admin/game">Spelbeheer</a></li>
+							<li {{{ (Request::is('admin/settings')) ? 'class=active' : '' }}}><a href="admin/settings">Instellingen <i class="fa fa-cogs"></i></a></li>
+						@else
+							<li><a href="overzicht" <?= (Request::is('overzicht')) ? 'class="active"' : '' ?>>Overzicht</a></li>
+							<li><a href="console">Console</a></li>
+						@endif
 					</ul>
 				</nav>
 				<!--/.nav-collapse -->

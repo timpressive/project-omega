@@ -5,7 +5,7 @@
 		<h2>INSTELLINGEN</h2>
 		<div>
 			<h4>Codes wijzigen</h4>
-			<form action="game/setcodes" method="POST">
+			<form action="admin/game/setcodes" method="POST">
 				{{ csrf_field() }}
 				<ul>
 					<li>
@@ -19,10 +19,34 @@
 					<button type="submit" class="btn btn-submit">Opslaan</button>
 				</ul>	
 			</form>
+			<h4>Console opties</h4>			
+			<p class="alert-warning">OPGEPAST! Het wijzigen van de memo tekst en/of het console commando kunnen het spel breken. Het is zeer belangrijk dat deze twee op elkaar zijn afgestemd (zie voorbeeld of spelfiche).</p>
+			<form action="admin/game/setconsole" method="POST">
+				{{csrf_field()}}
+				<ul>
+					<li>
+						<label for="console-pass">Wachtwoord console</label><br>
+						<input id="console-pass" type="text" name="console-pass" placeholder="password" value="{{ $settings['console-pass'] }}">
+					</li>
+					<li>
+						<label for="console-command">Console commando</label><br>
+						<input id="console-command" type="text" name="console-command" placeholder="exec protocol 66" value="{{ $settings['console-command'] }}">
+					</li>
+					<li>
+						<label for="memo">Memo tekst</label>
+						<textarea id="memo" name="memo" cols="30" rows="10">{{ $settings['memo'] }}</textarea>
+					</li>
+					<button type="submit" class="btn btn-submit">Opslaan</button>
+					<button type="submit" class="btn pull-right" form="reset-console">Standaardwaarden herstellen</button>
+				</ul>
+			</form>
+			<form id="reset-console" action="admin/game/resetconsole" method="POST">
+				{{csrf_field()}}
+			</form>
 		</div>
 		<div>
 			<h4>Spelduur instellen</h4>
-			<form id="time" action="game/setduration" method="POST">
+			<form id="time" action="admin/game/setduration" method="POST">
 				{{ csrf_field() }}
 				<ul>
 					<li>
@@ -33,10 +57,6 @@
 					<li><button type="submit" class="btn btn-submit">Opslaan</button></li></li>
 				</ul>
 			</form>
-		</div>
-		<div>
-			<button class="btn">Standaardwaarden herstellen</button>
-			<a href="" class="cancel">Annuleren</a>
 		</div>
 	</main>
 @stop

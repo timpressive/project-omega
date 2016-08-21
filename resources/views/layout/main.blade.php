@@ -22,7 +22,7 @@
 				<nav class="collapse navbar-collapse">
 					<ul>
 						<li><a href="overzicht" <?= (Request::is('overzicht')) ? 'class="active"' : '' ?>>Overzicht</a></li>
-						<li><a href="console">Console</a></li>
+						<li><a class="console" href="console">Console</a></li>
 					</ul>
 				</nav>
 			@endif

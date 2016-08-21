@@ -20,6 +20,7 @@ var Console = {
 		}
 	],
 	files: ['wachtwoorden.txt', 'memo-4.txt', 'memo-5.txt','memo-7.txt', 'memo-9.txt'],
+	override: '',
 	
 	// functions
 	runFunction: function(input) {
@@ -27,45 +28,44 @@ var Console = {
 		var input = input.split(' ');
 		var fn = input[0];
 
-		switch (fn) {
-			case 'help':
-				Console.help();
-				break;
-			case 'exec':
-				if (input[1] == 'protocol' && input[2] == '66') {
-					Console.win();
-				} else { Console.setOutput('functie incorrect', 'red'); }
-				break;
-			case 'ls':
-				Console.list();
-				break;
-			case 'open':
-				if (input[1] != null) { Console.open(input[1]); }
-				else { Console.setOutput('de functie "open" verwacht een bestandsnaam.', 'red'); }
-				break;
-			case 'clear':
-				Console.clear();
-				break;
-			case 'j':
-			case 'ja':
-				if (Console.stage > 0) { Console.handle66(true); }
-				else { Console.setOutput('kan functie "j" niet vinden.', 'red'); }
-				break;
-			case 'n':
-			case 'nee':
-				if (Console.stage > 0) { Console.handle66(false) }
-				else { Console.setOutput('kan functie "n" niet vinden.', 'red'); }
-				break;
-			default:
-				if (Console.stage > 0) { Console.handle66(fn); }
-				else { Console.setOutput('kan functie "' + fn + '" niet vinden', 'red'); }
-				break;
+		if (input == Console.override) {
+			Console.win();
+		} else {
+			switch (fn) {
+				case 'help':
+					Console.help();
+					break;
+				case 'ls':
+					Console.list();
+					break;
+				case 'open':
+					if (input[1] != null) { Console.open(input[1]); }
+					else { Console.setOutput('de functie "open" verwacht een bestandsnaam.', 'red'); }
+					break;
+				case 'clear':
+					Console.clear();
+					break;
+				case 'j':
+				case 'ja':
+					if (Console.stage > 0) { Console.handle66(true); }
+					else { Console.setOutput('kan functie "j" niet vinden.', 'red'); }
+					break;
+				case 'n':
+				case 'nee':
+					if (Console.stage > 0) { Console.handle66(false) }
+					else { Console.setOutput('kan functie "n" niet vinden.', 'red'); }
+					break;
+				default:
+					if (Console.stage > 0) { Console.handle66(fn); }
+					else { Console.setOutput('kan functie "' + fn + '" niet vinden', 'red'); }
+					break;
+			}
 		}
 	},
 	open: function(file) {
 		$('#console > .indicator').hide();
 
-		$.get(base_url+'/json/file/'+file, function (content) {
+		$.get(base_url+'/ajax/file/'+file, function (content) {
 	    	setTimeout(function () {
 	    		if (content == 'error') {
 	    			Console.setOutput('Bestand "' + file + '" niet gevonden', 'red');
@@ -82,19 +82,21 @@ var Console = {
 		});
 	},
 	help: function() {
-		var output = $('<div/>').addClass('functions');
-		var fns = $('<ul/>').appendTo(output);
-		var descs = $('<ul/>').appendTo(output);
-
+		var output = $('<ul/>').addClass('functions');
 
 		$.each(Console.functions, function (i, v) {
-			$('<li/>')
+			$li = $('<li/>');
+			$('<span>')
+				.addClass('fn')
 				.html('- ' + v.title)
-				.appendTo(fns);
+				.appendTo($li);
 
-			$('<li/>')
+			$('<span/>')
+				.addClass('desc')
 				.html(v.description)
-				.appendTo(descs);
+				.appendTo($li);
+
+			$li.appendTo(output);
 		});
 
 		
@@ -191,7 +193,7 @@ var Console = {
 				Console.delay('weet u zeker dat u het virus wilt verplaatsen? [j/n]', 300);
 			    Console.stage = 3;
 				break;
-			case 3: 
+			case 3:
 				setTimeout(function () {
 
 					Console.setOutput('virus wordt verplaatst.');
@@ -249,13 +251,13 @@ var Console = {
 			case 6:
 				Console.loopPercentages(1);
 				$('#command').prop('disabled', 'disabled');
+				/*$.get(base_url+'/game/protocol-66', function (data) {
+
+				});*/
 				break;
 			default:
 				break;
 		}
-		/*$.post(base_url+'/game/protocol-66', function (data) {
-
-		});*/
 	},
 	handle66: function(input) {
 		switch (Console.stage) {
@@ -297,10 +299,15 @@ var Console = {
 
 
 $(function() {
+	$.ajax({
+		url: base_url+'ajax/get-command',
+		dataType: 'text',
+		async: false,
+		method: 'GET',
+		success: function (data) { Console.override = data; }
+	}),
 	// EVENTS
-		$('#command').blur(function () {
-			$(this).focus();
-		});
+		$('#command').blur(function () { $(this).focus(); });
 
 		$('#command').keydown(function (e) {
 			// if ENTER signal is sent

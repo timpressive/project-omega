@@ -23,6 +23,9 @@ class AdminController extends Controller
         $settings = [
             'access-code' => Settings::getByTerm('access-code'),
             'pin-code' => Settings::getByTerm('pin-code'),
+            'console-pass' => Settings::getByTerm('console-pass'),
+            'console-command' => Settings::getByTerm('console-command'),
+            'memo' => Settings::getByTerm('memo'),
             'hours' => Settings::getHours(),
             'minutes' => Settings::getMinutes(),
             'seconds' => Settings::getSeconds(),
@@ -67,5 +70,25 @@ class AdminController extends Controller
         exec('sudo python /var/www/project-omega/resources/assets/python/timer.py '.$duration, $out);
 
         return $out;
+    }
+    protected function setconsole(Request $request) {
+        if ($request->input('console-pass') !== NULL) {
+            Settings::change('console-pass', $request->input('console-pass'));
+        }
+        if ($request->input('console-command') !== NULL) {
+            Settings::change('console-command', $request->input('console-command'));
+        }
+        if ($request->input('memo') !== NULL) {
+            Settings::change('memo', $request->input('memo'));
+        }
+
+        return redirect()->back();
+    }
+    protected function resetconsole(Request $request) {
+        Settings::change('console-pass', Settings::getByTerm('console-pass-default'));
+        Settings::change('console-command', Settings::getByTerm('console-command-default'));
+        Settings::change('memo', Settings::getByTerm('memo-default'));
+
+        return redirect()->back();
     }
 }

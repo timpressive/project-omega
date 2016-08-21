@@ -1,9 +1,10 @@
-#!/usr/bin/python2.7
+import sys
 
 import RPi.GPIO as GPIO
 from time import sleep
 from Adafruit_CharLCD import Adafruit_CharLCD
 
+pin = sys.argv[i]
 GPIO.setmode(GPIO.BCM)
 lcd = Adafruit_CharLCD(rs=24, en=23,
                        d4=22, d5=27, d6=17, d7=18,
@@ -25,7 +26,6 @@ ROW = [26,19,13,26]
 COL = [21,20,16]
 
 code = ""
-pin = "6319"
 
 def getCode():
 	global code

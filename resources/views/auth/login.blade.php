@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('layout.admin')
 @section('title', 'Login')
 @section('content')
 	<h2>Aanmelden als administrator</h2>

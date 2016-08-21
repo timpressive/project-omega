@@ -9,10 +9,7 @@ $bg: #222;
 
 h1,h2,h3, h4, h5, h6, #console { font-family: 'Commodore'; }
 
-body {
-	background-color: $bg; color: #fff;
-	>.container {padding: 2em 5%;}
-}
+body>.container { padding: 2em 5%; }
 form#auth {
 	margin: 0 auto; width: 60%; font-size: 1.5em;
 	button.submit { width: 2em; color: #fff; background-color: #000; border: none; height: 2em; }
@@ -26,31 +23,41 @@ form#auth {
 ul { list-style-type: none; }
 .btn-check { border-radius: 50%; background-color: #5F5; border: none; }
 
-body:not(#admin) .navbar {
-	border: none; border-bottom: 1px solid $theme;
-	#logo {
-		padding: 1em 2em; float: left; max-width: 25%;
-	@media #{$mobile} { max-width: 85%; padding: 1em 10% 1em 5%; }
-	}
-	nav {
-		position: absolute;
-		@media #{$tablet} { bottom: 0; }
-		@media #{$mobile} { width: 100%; padding: 0; }
-		right: 0;
-		ul {
-			@media #{$mobile} { width: 100%; padding: 0; margin: 0; }
-			float: right; margin: 0 1em;
-			li {
-				@media #{$mobile} { width: 100%; }
-				float: left; font-size: 1.5em;
-				a {
-					padding: .5em; display: inline-block; color: $theme; border: 2px solid $bg; border-bottom: none;
-					@media #{$mobile} { background-color: #333; color: $theme; width: 100%; }
-					&.active, &:hover, &:focus, &:active { border-color: $theme; text-decoration: none; }
+body:not(#admin) {
+	background-color: $bg; color: #fff;
+	.navbar {
+		border: none; border-bottom: 1px solid $theme; background-color: $bg; color: #fff;
+		#logo {
+			padding: 1em 2em; float: left; max-width: 25%;
+		@media #{$mobile} { max-width: 85%; padding: 1em 10% 1em 5%; }
+		}
+		nav {
+			position: absolute;
+			@media #{$tablet} { bottom: 0; }
+			@media #{$mobile} { width: 100%; padding: 0; }
+			right: 0;
+			ul {
+				@media #{$mobile} { width: 100%; padding: 0; margin: 0; }
+				float: right; margin: 0 1em;
+				li {
+					@media #{$mobile} { width: 100%; }
+					float: left; font-size: 1.5em;
+					a {
+						padding: .5em; display: inline-block; color: $theme; border: 2px solid $bg; border-bottom: none;
+						@media #{$mobile} { background-color: #333; color: $theme; width: 100%; }
+						&.active, &:hover, &:focus, &:active {
+							@media #{$tablet} { border-color: $theme; }
+							text-decoration: none;
+						}
+					}
 				}
 			}
-		}
 	}
+}
+	.navbar-toggle {
+		&:focus, &:active, &:hover { color: $theme; }
+	}
+	.navbar-collapse { z-index: 1; }
 }
 
 // OVERVIEW
@@ -105,8 +112,10 @@ main {
 	}
     .indicator { color: #32CD00; width: 10%; }
     .functions {
-    	display: inline-block;
-    	ul {margin-right: 4em; float: left;}
+    	span.fn {
+    		width: 40%; color: $theme; display: inline-block;
+    		@media #{$mobile} { width: 65%; }
+    	}
     }
 	#command {
 		cursor: none; background-color: #000; color: #FFF; border: none; font-family: 'Commodore'; width: 90%;; font-size: 100%;
@@ -174,7 +183,7 @@ main {
 	.col-md-12 {
 		text-align: center;
 		#check { width: 50%; margin-top: 2em; display: inline-block; text-align: center; background-color: #27a200; }
-		.message-success { margin-top: 2em; }
+		.message.success { margin-top: 2em; }
 		.proceed { background-color: #27a200; }
 	}
 }
@@ -190,18 +199,25 @@ main {
 	.nav {float: right;}
 	.settings {
 		width: 500px; margin: 0 auto;
+		h4 { margin-top: 2em; }
 		@media #{$mobile} { width: 90%; }
 		&>div { margin-top: 3em; }
 		form {
-			ul{ padding-left: 0; }
+			ul{
+				padding-left: 0;
+				li { margin-bottom: .5em; }
+			}
 			input {
 				width: 100%; border: none; border-bottom: 1px solid black; text-align: center; padding: .5em;
 				&[type="number"] { width: 3em; }
 				&:focus { outline: solid #000 thin; }
 			}
-			.btn-submit {
+			textarea { width: 100%;}
+			button[type="submit"] {
 				margin-top: 1em;
-				&:hover, &:active, &:focus { background-color: #32BD00 !important; color: white !important; }
+				&.btn-submit {
+					&:hover, &:active, &:focus { background-color: #32BD00 !important; color: white !important; }
+				}
 			}
 		}
 		.cancel { float: right; }
@@ -216,16 +232,16 @@ main {
 		.btn-stop { @extend .btn-start; background-color: #df3232; }
 		.col-md-6 button { width: 100%; }
 	}
-}
-.navbar-toggle {
-	&:hover, &:active, &:focus { color: $bg; }
-}
-
-#login {
-	input, button {
-		@media #{$mobile} { width: 90%; margin: 0 5%;}
+	.navbar-toggle {
+		&:hover, &:active, &:focus { color: $bg; }
 	}
-} 
+
+	#login {
+		input, button {
+			@media #{$mobile} { width: 90%; margin: 0 5%;}
+		}
+	} 
+}
 
 // FONTS
 @font-face {

@@ -21,14 +21,13 @@ Route::post('login', 'Auth\AuthController@postLogin');
 Route::post('auth/access', 'Auth\AuthController@access');
 
 Route::get('overzicht', 'PagesController@overview');
+Route::get('pin-code', 'GameController@pinCode');
 Route::get('decryptie/level-{level}', 'GamesController@mastermind');
 Route::get('game/decrypt-level', 'GamesController@decryptlevel');
 
 Route::get('console', 'GamesController@console');
 Route::get('netcat', "GamesController@console");
-Route::get('maze', function () {
-	return view('games.maze');
-});
+Route::get('maze', function () { return view('games.maze'); });
 
 Route::group(['middleware' =>  'auth', 'prefix' => 'admin'], function() {
 	Route::get('/', 'AdminController@index');
@@ -39,10 +38,17 @@ Route::group(['middleware' =>  'auth', 'prefix' => 'admin'], function() {
 	// Route::resource('highscore', 'AdminController@highscore');
 
 	Route::post('game/setcodes', 'AdminController@setcodes');
+	Route::post('game/setconsole', 'AdminController@setconsole');
 	Route::post('game/setduration', 'AdminController@setduration');
+	Route::post('game/resetconsole', 'AdminController@resetconsole');
 
 	Route::get('game/start', 'AdminController@startcountdown');
 });
 
-Route::get('json/file/{name}', 'GamesController@file');
-Route::get('json/keypad', 'GamesController@keypad');
+Route::group(['prefix' => 'ajax'], function() {
+
+	Route::get('file/{name}', 'GamesController@file');
+	Route::get('keypad', 'GamesController@keypad');
+	Route::get('get-command', 'GamesController@getcommand');
+
+});

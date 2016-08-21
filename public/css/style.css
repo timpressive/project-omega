@@ -1,11 +1,8 @@
 h1, h2, h3, h4, h5, h6, #console {
   font-family: 'Commodore'; }
 
-body {
-  background-color: #222;
-  color: #fff; }
-  body > .container {
-    padding: 2em 5%; }
+body > .container {
+  padding: 2em 5%; }
 
 form#auth {
   margin: 0 auto;
@@ -40,55 +37,66 @@ ul {
   background-color: #5F5;
   border: none; }
 
-body:not(#admin) .navbar {
-  border: none;
-  border-bottom: 1px solid #32cd00; }
-  body:not(#admin) .navbar #logo {
-    padding: 1em 2em;
-    float: left;
-    max-width: 25%; }
-    @media (max-width: 768px) {
-      body:not(#admin) .navbar #logo {
-        max-width: 85%;
-        padding: 1em 10% 1em 5%; } }
-  body:not(#admin) .navbar nav {
-    position: absolute;
-    right: 0; }
-    @media (min-width: 769px) {
-      body:not(#admin) .navbar nav {
-        bottom: 0; } }
-    @media (max-width: 768px) {
-      body:not(#admin) .navbar nav {
-        width: 100%;
-        padding: 0; } }
-    body:not(#admin) .navbar nav ul {
-      float: right;
-      margin: 0 1em; }
+body:not(#admin) {
+  background-color: #222;
+  color: #fff; }
+  body:not(#admin) .navbar {
+    border: none;
+    border-bottom: 1px solid #32cd00;
+    background-color: #222;
+    color: #fff; }
+    body:not(#admin) .navbar #logo {
+      padding: 1em 2em;
+      float: left;
+      max-width: 25%; }
       @media (max-width: 768px) {
-        body:not(#admin) .navbar nav ul {
+        body:not(#admin) .navbar #logo {
+          max-width: 85%;
+          padding: 1em 10% 1em 5%; } }
+    body:not(#admin) .navbar nav {
+      position: absolute;
+      right: 0; }
+      @media (min-width: 769px) {
+        body:not(#admin) .navbar nav {
+          bottom: 0; } }
+      @media (max-width: 768px) {
+        body:not(#admin) .navbar nav {
           width: 100%;
-          padding: 0;
-          margin: 0; } }
-      body:not(#admin) .navbar nav ul li {
-        float: left;
-        font-size: 1.5em; }
+          padding: 0; } }
+      body:not(#admin) .navbar nav ul {
+        float: right;
+        margin: 0 1em; }
         @media (max-width: 768px) {
-          body:not(#admin) .navbar nav ul li {
-            width: 100%; } }
-        body:not(#admin) .navbar nav ul li a {
-          padding: .5em;
-          display: inline-block;
-          color: #32cd00;
-          border: 2px solid #222;
-          border-bottom: none; }
+          body:not(#admin) .navbar nav ul {
+            width: 100%;
+            padding: 0;
+            margin: 0; } }
+        body:not(#admin) .navbar nav ul li {
+          float: left;
+          font-size: 1.5em; }
           @media (max-width: 768px) {
-            body:not(#admin) .navbar nav ul li a {
-              background-color: #333;
-              color: #32cd00;
+            body:not(#admin) .navbar nav ul li {
               width: 100%; } }
-          body:not(#admin) .navbar nav ul li a.active, body:not(#admin) .navbar nav ul li a:hover, body:not(#admin) .navbar nav ul li a:focus, body:not(#admin) .navbar nav ul li a:active {
-            border-color: #32cd00;
-            text-decoration: none; }
+          body:not(#admin) .navbar nav ul li a {
+            padding: .5em;
+            display: inline-block;
+            color: #32cd00;
+            border: 2px solid #222;
+            border-bottom: none; }
+            @media (max-width: 768px) {
+              body:not(#admin) .navbar nav ul li a {
+                background-color: #333;
+                color: #32cd00;
+                width: 100%; } }
+            body:not(#admin) .navbar nav ul li a.active, body:not(#admin) .navbar nav ul li a:hover, body:not(#admin) .navbar nav ul li a:focus, body:not(#admin) .navbar nav ul li a:active {
+              text-decoration: none; }
+              @media (min-width: 769px) {
+                body:not(#admin) .navbar nav ul li a.active, body:not(#admin) .navbar nav ul li a:hover, body:not(#admin) .navbar nav ul li a:focus, body:not(#admin) .navbar nav ul li a:active {
+                  border-color: #32cd00; } }
+  body:not(#admin) .navbar-toggle:focus, body:not(#admin) .navbar-toggle:active, body:not(#admin) .navbar-toggle:hover {
+    color: #32cd00; }
+  body:not(#admin) .navbar-collapse {
+    z-index: 1; }
 
 #overview {
   font-size: 1.2em; }
@@ -173,11 +181,13 @@ main#home {
   #console .indicator {
     color: #32CD00;
     width: 10%; }
-  #console .functions {
+  #console .functions span.fn {
+    width: 40%;
+    color: #32cd00;
     display: inline-block; }
-    #console .functions ul {
-      margin-right: 4em;
-      float: left; }
+    @media (max-width: 768px) {
+      #console .functions span.fn {
+        width: 65%; } }
   #console #command {
     cursor: none;
     background-color: #000;
@@ -271,7 +281,7 @@ main#home {
       display: inline-block;
       text-align: center;
       background-color: #27a200; }
-    #mastermind .col-md-12 .message-success {
+    #mastermind .col-md-12 .message.success {
       margin-top: 2em; }
     #mastermind .col-md-12 .proceed {
       background-color: #27a200; }
@@ -289,6 +299,8 @@ main#home {
 #admin .settings {
   width: 500px;
   margin: 0 auto; }
+  #admin .settings h4 {
+    margin-top: 2em; }
   @media (max-width: 768px) {
     #admin .settings {
       width: 90%; } }
@@ -296,6 +308,8 @@ main#home {
     margin-top: 3em; }
   #admin .settings form ul {
     padding-left: 0; }
+    #admin .settings form ul li {
+      margin-bottom: .5em; }
   #admin .settings form input {
     width: 100%;
     border: none;
@@ -306,9 +320,11 @@ main#home {
       width: 3em; }
     #admin .settings form input:focus {
       outline: solid #000 thin; }
-  #admin .settings form .btn-submit {
+  #admin .settings form textarea {
+    width: 100%; }
+  #admin .settings form button[type="submit"] {
     margin-top: 1em; }
-    #admin .settings form .btn-submit:hover, #admin .settings form .btn-submit:active, #admin .settings form .btn-submit:focus {
+    #admin .settings form button[type="submit"].btn-submit:hover, #admin .settings form button[type="submit"].btn-submit:active, #admin .settings form button[type="submit"].btn-submit:focus {
       background-color: #32BD00 !important;
       color: white !important; }
   #admin .settings .cancel {
@@ -333,12 +349,10 @@ main#home {
     background-color: #df3232; }
   #admin .controls .col-md-6 button {
     width: 100%; }
-
-.navbar-toggle:hover, .navbar-toggle:active, .navbar-toggle:focus {
+#admin .navbar-toggle:hover, #admin .navbar-toggle:active, #admin .navbar-toggle:focus {
   color: #222; }
-
 @media (max-width: 768px) {
-  #login input, #login button {
+  #admin #login input, #admin #login button {
     width: 90%;
     margin: 0 5%; } }
 
