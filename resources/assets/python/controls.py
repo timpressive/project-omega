@@ -3,6 +3,8 @@ import sys
 from time import sleep
 
 function = sys.argv[1]
+
+WIN = 93
 ON = 94
 OFF = 95
 PAUSE = 96
@@ -11,10 +13,10 @@ PENALTY = 97
 wiringpi.wiringPiSetup()
 
 wiringpi.mcp23017Setup(82, 0x21)
-#wiringpi.pinMode(ON, 1)
-#wiringpi.pinMode(OFF, 1)
-#wiringpi.pinMode(PAUSE, 1)
-#wiringpi.pinMode(PENALTY, 1)
+
+wiringpi.pinMode(OFF, 1)
+wiringpi.pinMode(PAUSE, 1)
+wiringpi.pinMode(PENALTY, 1)
 
 def stopTimer() :
 	wiringpi.digitalWrite(OFF, 1)
@@ -32,6 +34,19 @@ def getPaused():
 def getStarted():
 	print wiringpi.digitalRead(ON)
 
+def poll():
+	if wiringpi.digitalRead(WIN):
+		print 'win'
+	elif wiringpi.digitalRead(LOSE):
+		print 'lose'
+	else
+		print 'playing'
+
+def win():
+	if wiringpi.digitalRead(LOSE) == 0 && wiringpi.digitalRead(ON) == 1:
+		wiringpi.digitalWrite(WIN, 1)
+		sleep(5)
+		wiringpi.digitalWrite(WIN, 0)
 
 if function == "stop":
 	stopTimer()
@@ -43,3 +58,7 @@ elif function == "paused":
 	getPaused()
 elif function == 'started':
 	getStarted()
+elif function == 'poll':
+	poll()
+elif function == 'win':
+	win()

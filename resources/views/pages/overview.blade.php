@@ -42,7 +42,6 @@
 				<p><i class="fa fa-flash"></i><span class="green pull-right">1.5W</span></p>
 				<p><i class="fa fa-lock"></i> <span class="green pull-right">99.98%</span></p>
 				<p><i class="fa fa-shield"></i><span class="green pull-right">100%</span></p>
-				<p class="temp-label">Temperatuur: <span class="temp-label pull-right">3.08°C</span></p>
 			</div>
 		</div>
 	</main>
@@ -51,18 +50,4 @@
 
 @section('js')
 	<script src="{{ asset('js/equalizer.js') }}"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-
-		    setInterval(function() {
-				$('.stats .temp-label span').text(Math.round(val*100)/100 + '°C');
-				if (val > 3) {
-					$('.stats .temp-label span').removeClass('green');
-				} else {
-					$('.stats .temp-label span').addClass('green');
-				}
-		    }, 700);
-
-		});
-	</script>
 @stop

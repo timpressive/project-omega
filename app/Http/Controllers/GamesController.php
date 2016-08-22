@@ -12,7 +12,15 @@ use App\Settings;
 
 class GamesController extends Controller
 {
+	protected function pincode() {
+		if (Control::hasPin()) {
+			return redirect('console');
+		} else {
+			return view('games.pin');
+		}
+	}
 
+	// Ask for pin code + activate keypad and LCD screen
 	protected function keypad(Request $request) {
 		if($request->ajax()) {
 			if (!Control::hasPin()) {
@@ -25,13 +33,8 @@ class GamesController extends Controller
 			}
 		}
 	}
-	protected function pinCode() {
-		if (Control::hasPin()) {
-			return redirect('console');
-		} else {
-			return view('games.pin');
-		}
-	}
+
+	// Get mastermind
 	protected function mastermind($level) {
 		// Check for access (homepage authentication)
 		if (Control::hasAccess()) {
@@ -68,15 +71,17 @@ class GamesController extends Controller
 		else { return redirect('/'); }
 	}
 
+	// Handle mastermind level up
 	protected function decryptlevel(Request $request) {
 		$request->session()->put('decrypted-level', $request->input('level'));
 
 		return $request->session()->get('decrypted-level');
 	}
 
+	// Get console
 	protected function console(Request $request) {
 		if (Control::hasAccess()) {
-			if (Control::hasPin()) {
+			if (Control::hasPin() || $request->url() == url('netcat')) {
 				if (!Session::has('decrypted-level') || Session::get('decrypted-level') < 3) {
 					if ($request->url() == url('netcat')) {
 						return view('games.console');
@@ -93,6 +98,7 @@ class GamesController extends Controller
 		}
 	}
 
+	// Open files requested through console
 	protected function file($file) {
 		// if file is found
 		if (File::exists(storage_path('app/public/files/'.$file))) {
@@ -117,6 +123,7 @@ class GamesController extends Controller
 		}
 	}
 
+	// returns the winning console command
 	protected function getcommand(Request $request) {
 		if ($request->ajax()) {
 			return Settings::getByTerm('console-command');
@@ -124,4 +131,10 @@ class GamesController extends Controller
 			$request->session->flush();
 		}
 	}
+
+	// Poll for win/loss
+	protected function poll(Request $request) { return Control::poll(); }
+
+	// Handle user win
+	protected function win(Request $request) { Control::poll(); }
 }

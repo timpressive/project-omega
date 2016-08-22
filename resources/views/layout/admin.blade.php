@@ -32,6 +32,8 @@
 				<!--/.nav-collapse -->
 			</div>
 	    </div>
+	    @include('partial.success')
+	    @include('partial.error')
 		<div class="container">
 			@yield('content')
 		</div>

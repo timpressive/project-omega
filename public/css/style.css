@@ -39,7 +39,8 @@ ul {
 
 body:not(#admin) {
   background-color: #222;
-  color: #fff; }
+  color: #fff;
+  font-size: 16px; }
   body:not(#admin) .navbar {
     border: none;
     border-bottom: 1px solid #32cd00;
@@ -107,6 +108,13 @@ body:not(#admin) {
     background-color: rgba(50, 205, 0, 0.2);
     margin-bottom: 2em;
     border: 1px solid #32cd00; }
+    @media (max-width: 768px) {
+      #overview .profile {
+        float: none;
+        display: inline-block;
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%; } }
     #overview .profile .ident {
       text-align: right;
       padding: 1em; }
@@ -289,7 +297,9 @@ main#home {
 #admin h2 {
   text-align: center; }
 #admin > .container {
-  padding-top: 4em; }
+  margin-top: 50px;
+  padding-top: 4em;
+  font-size: 17px; }
 #admin .navbar-brand {
   padding: .5em 1em; }
   #admin .navbar-brand #logo {
@@ -329,6 +339,9 @@ main#home {
       color: white !important; }
   #admin .settings .cancel {
     float: right; }
+#admin .alert-success, #admin .alert-danger {
+  margin-top: 50px;
+  text-align: center; }
 #admin .controls {
   width: 500px;
   margin: 0 auto; }
@@ -336,6 +349,8 @@ main#home {
     #admin .controls {
       width: 90%;
       margin: 0 auto; } }
+  #admin .controls .row, #admin .controls #start {
+    margin: 5em auto; }
   #admin .controls .btn-start, #admin .controls .btn-stop {
     background-color: #36b729;
     color: #fff;
@@ -351,10 +366,15 @@ main#home {
     width: 100%; }
 #admin .navbar-toggle:hover, #admin .navbar-toggle:active, #admin .navbar-toggle:focus {
   color: #222; }
-@media (max-width: 768px) {
+#admin #login {
+  margin: 5em auto;
+  width: 50%; }
+  @media (max-width: 768px) {
+    #admin #login {
+      width: 100%; } }
   #admin #login input, #admin #login button {
     width: 90%;
-    margin: 0 5%; } }
+    margin: 0 5%; }
 
 @font-face {
   font-family: 'Commodore';
@@ -370,5 +390,53 @@ form .btn-submit {
 
 input, button, textarea {
   border-radius: 0 !important; }
+
+#winner, #loser {
+  background-color: rgba(43, 84, 29, 0.7);
+  margin-bottom: 2em;
+  border: 1px solid #32cd00;
+  color: #32cd00;
+  text-align: center;
+  display: none;
+  position: fixed;
+  width: 50%;
+  height: 20em;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 2em;
+  font-size: 18px;
+  z-index: 10; }
+  @media (max-width: 768px) {
+    #winner, #loser {
+      position: relative;
+      width: 100%;
+      height: 18em; } }
+  @media (max-width: 520px) {
+    #winner, #loser {
+      padding: 1em; } }
+  #winner h2, #loser h2 {
+    padding-bottom: 1em; }
+  #winner .close, #loser .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 11;
+    color: #32cd00;
+    font-size: 2em;
+    opacity: 1;
+    text-shadow: none; }
+    #winner .close:hover, #winner .close:active, #loser .close:hover, #loser .close:active {
+      opacity: .6; }
+
+#loser {
+  border-color: #E60020;
+  background-color: rgba(159, 0, 0, 0.78);
+  color: #e60000; }
 
 /*# sourceMappingURL=style.css.map */

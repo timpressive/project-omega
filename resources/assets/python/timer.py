@@ -34,6 +34,7 @@ CLOCK_S1 = 67
 
 MSBFIRST = 1
 
+WIN = 93
 ON = 94
 OFF = 95
 PAUSE = 96
@@ -72,11 +73,18 @@ wiringpi.pinMode(CLOCK_H2,1)
 
 wiringpi.pinMode(ON, 1)
 wiringpi.pinMode(OFF, 1)
+
+wiringpi.pinMode(WIN, 1)
+
 wiringpi.pinMode(PAUSE, 1)
 wiringpi.pinMode(PENALTY, 1)
 
 wiringpi.digitalWrite(ON, 1)
 wiringpi.digitalWrite(OFF, 0)
+
+wiringpi.digitalWrite(WIN, 0)
+wiringpi.digitalWrite(WIN, 0)
+
 wiringpi.digitalWrite(PAUSE, 0)
 wiringpi.digitalWrite(PENALTY, 0)
 
@@ -96,35 +104,9 @@ def countdown():
 	global end
 	remaining = int(end - time.time())
 
-	while remaining > 0:
+	while remaining > 0 and wiringpi.digitalRead(WIN) == 0:
 
 		doClock(remaining)
-
-#		hours   = remaining / 3600
-#		minutes = (remaining - (hours * 3600)) / 60 
-#		seconds = (remaining - (hours * 3600)) % 60
-#
-#		hours = padZero(hours)
-#		minutes = padZero(minutes)
-#		seconds = padZero(seconds)
-#
-#		h1 = list(hours)[0]
-#		h2 = list(hours)[1]
-#
-#		m1 = list(minutes)[0]
-#		m2 = list(minutes)[1]
-#
-#		s1 = list(seconds)[0]
-#		s2 = list(seconds)[1]
-#
-#		writeNo(int(h1), LATCH_H1, DATA_H1, CLOCK_H1)
-#		writeNo(int(h2), LATCH_H2, DATA_H2, CLOCK_H2)
-#		
-#		writeNo(int(m1), LATCH_M1, DATA_M1, CLOCK_M1)
-#		writeNo(int(m2), LATCH_M2, DATA_M2, CLOCK_M2)
-#
-#		writeNo(int(s1), LATCH_S1, DATA_S1, CLOCK_S1)
-#		writeNo(int(s2), LATCH_S2, DATA_S2, CLOCK_S2)
 		
 		if wiringpi.digitalRead(PENALTY) and (end - time.time()) > 300:
                 	end -= 300
@@ -132,7 +114,11 @@ def countdown():
 
 		if wiringpi.digitalRead(PAUSE):
 			while wiringpi.digitalRead(PAUSE):
+				turnOff()
+				sleep(1)
+				doClock(remaining)
 				pass
+
 			end = time.time() + remaining
 
 		remaining = int(end - time.time())
@@ -145,6 +131,9 @@ def countdown():
 	
 
 	turnOff()
+	if wiringpi.digitalRead(WIN) == 0:
+		
+
 
 # takes latch, clock and data pins and number to be written  for positions
 # switches number to binary representation on 7-seg display and shifts it out

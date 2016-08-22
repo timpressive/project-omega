@@ -24,7 +24,7 @@ ul { list-style-type: none; }
 .btn-check { border-radius: 50%; background-color: #5F5; border: none; }
 
 body:not(#admin) {
-	background-color: $bg; color: #fff;
+	background-color: $bg; color: #fff; font-size: 16px;
 	.navbar {
 		border: none; border-bottom: 1px solid $theme; background-color: $bg; color: #fff;
 		#logo {
@@ -52,8 +52,8 @@ body:not(#admin) {
 					}
 				}
 			}
+		}
 	}
-}
 	.navbar-toggle {
 		&:focus, &:active, &:hover { color: $theme; }
 	}
@@ -67,6 +67,7 @@ body:not(#admin) {
 	.profile {
 		float: right; background-color: rgba(50,205,0,.2); margin-bottom: 2em;
 		border: 1px solid $theme;
+		@media #{$mobile} { float: none; display: inline-block; width: 90%; margin-left: 5%; margin-right: 5%; }
 		.ident {text-align: right; padding: 1em; }
 		img { width: 100px; padding: 1em 0; margin: 1em 0; float: left; background-color: $bg; }
 	}
@@ -191,7 +192,7 @@ main {
 // ADMIN PAGES
 #admin {
 	h2 { text-align: center; }
-	&>.container { padding-top: 4em; }
+	&>.container { margin-top: 50px; padding-top: 4em; font-size: 17px; }
 	.navbar-brand {
 		padding: .5em 1em;
 		#logo { max-height: 100%; }
@@ -222,9 +223,11 @@ main {
 		}
 		.cancel { float: right; }
 	}
+	.alert-success, .alert-danger { margin-top: 50px; text-align: center; }
 	.controls {
 		width: 500px; margin: 0 auto;
 		@media #{$mobile} { width: 90%; margin: 0 auto; }
+		.row, #start { margin: 5em auto; }
 		.btn-start {
 			background-color: #36b729; color: #fff; width: 100%; padding: .5em 0; display: block; text-align: center;
 			&:active, &:focus, &:hover { text-decoration: none; }
@@ -237,9 +240,9 @@ main {
 	}
 
 	#login {
-		input, button {
-			@media #{$mobile} { width: 90%; margin: 0 5%;}
-		}
+		margin: 5em auto; width: 50%;
+		@media #{$mobile} { width: 100%; }
+		input, button { width: 90%; margin: 0 5%; }
 	} 
 }
 
@@ -261,3 +264,18 @@ form {
 }
 
 input, button, textarea { border-radius: 0 !important; }
+
+#winner,#loser {
+	background-color: rgba(43, 84, 29, .7); margin-bottom: 2em; border: 1px solid $theme; color: $theme; text-align: center; display: none;
+	position: fixed; width: 50%; height: 20em; top: 0; left: 0; right: 0; bottom: 0; margin: auto; padding: 2em; font-size: 18px; z-index: 10;
+	@media #{$mobile} { position: relative; width: 100%; height: 18em; }
+	@media (max-width: 520px) { padding: 1em; }
+	h2 { padding-bottom: 1em; }
+	.close {
+		position: absolute; top: 0; right: 0; width: 50px; height: 50px; cursor: pointer; z-index: 11;
+		color: $theme; font-size: 2em; opacity: 1; text-shadow: none;
+		&:hover, &:active { opacity: .6; }
+	}
+}
+
+#loser { border-color: #E60020; background-color: rgba(159, 0, 0, 0.78); color: #e60000; }

@@ -22,4 +22,22 @@ class Control extends Model
     		return false;
     	}
     }
+
+    protected function active() { return shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py started'); }
+
+    protected function paused() { return shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py paused'); }
+
+    protected function penalty() { shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py penalty'); }
+
+    protected function pause() { shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py pause'); }
+
+    protected function start() {
+        $duration = Settings::getByTerm('time');
+        shell_exec('sudo python /var/www/project-omega/resources/assets/python/timer.py '.$duration);
+    }
+    protected function stop() { shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py stop'); }
+
+    protected function poll() { return shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py poll'); }
+
+    protected function win() { shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py win'); }
 }

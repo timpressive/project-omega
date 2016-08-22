@@ -3,13 +3,12 @@
 @section('content')
 	<main class="controls">
 		<h2>SPEL BEHEREN</h2>
+		<p>Vanop deze pagina kan je de spelverloop wat controleren. Als je vals spel vermoed trek je tijd af, als er iets gebeurt of je wilt zeker zijn dat ze winnen pauzeer je de timer.</p>
+		<p>Het spel starten of stoppen doe je met de grote groene/rode knop</p>
 		<a id="start" href="#" class="btn-{{ ($started == 1) ? 'stop' : 'start' }} {{ ($started == 1) ? 'stop' : 'start' }}">{{ ($started == 1) ? 'Stop' : 'Start'  }}</a>
 		<div class="row">
-			<h4>STRAFFEN</h4>
-			<div class="col-md-6"><button id="penalty" class="btn btn-primary">Tijd aftrekken</button></div>
-		</div>
-		<div class="row">
-			<h4>BELONEN</h4>
+			<h4>STRAFFEN & BELONEN</h4>
+			<div class="col-md-6"><button id="penalty" class="btn btn-primary">5 min. aftrekken</button></div>
 			<div class="col-md-6"><button id="pause" class="btn btn-primary {{ ($paused == 1) ? 'unpause' : 'pause' }}">{{ ($paused == 1) ? 'Verder spelen' : 'Spel pauzeren' }}</button></div>
 		</div>
 	</main>

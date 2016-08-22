@@ -23,7 +23,6 @@ function bars($bar) {
 	var maxWidth = $bar.parent().width();
 	var percentage = Math.round(Math.random() * .75 + .25);
 	var width = maxWidth * percentage;
-	console.log(maxWidth);
 
 	var timing = 300;
 

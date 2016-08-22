@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 use App\Http\Requests;
 use App\Settings;
+use App\Control;
 
 class AdminController extends Controller
 {
 	// fire up the dashboard
 	protected function index() {
-		$settings = Settings::get();
 		return view('admin.dashboard')->with(['settings' => $settings]);
 	}
 
 	protected function game() {
-		$started = $this->getstarted();
-		$paused = $this->getPaused();
+		$started = Control::active();
+		$paused = Control::paused();
 
 		return view('admin.controls')->with(['started' => $started, 'paused' => $paused]);
 	}
@@ -36,11 +37,13 @@ class AdminController extends Controller
 		return view('admin.settings')->with(['settings' => $settings]);
 	}
 
-	protected function instructions() {
-		return view('admin.instructions');
-	}
+	protected function instructions() { return view('admin.instructions'); }
 
 	protected function setcodes(Request $request) {
+		$this->validate($request, [
+			'pin-code' => 'required|digits:4',
+			'access-code' => 'required|min:4',
+		]);
 		if ($request->input('pin-code') !== NULL) {
 			Settings::change('pin-code', $request->input('pin-code'));
 		}
@@ -48,14 +51,15 @@ class AdminController extends Controller
 			Settings::change('access-code', $request->input('access-code'));
 		}
 
+		Session::flash('flash_message', 'Codes gewijzigd!');
 		return redirect()->back();
 	}
 
 	protected function setduration(Request $request) {
 		$this->validate($request, [
-			'hours' => 'required|min:0|max:3',
-			'minutes' => 'required|min:0|max:59',
-			'seconds' => 'required|min:0|max:59'
+			'hours' => 'required|min:0|max:5|digits:1',
+			'minutes' => 'required|min:0|max:59|digits:2',
+			'seconds' => 'required|min:0|max:59|digits:2'
 		]);
 
 		$input = $request->all();
@@ -65,16 +69,17 @@ class AdminController extends Controller
 
 		Settings::change('time', $duration);
 
+		Session::flash('flash_message', 'Spelduur gewijzigd!');
 		return redirect()->back();
 	}
 
-	protected function startcountdown(Request $request) {
-		if ($request->ajax()) {
-                        $duration = Settings::getByTerm('time');
-			shell_exec('sudo python /var/www/project-omega/resources/assets/python/timer.py '.$duration);
-		}
-	}
 	protected function setconsole(Request $request) {
+		$this->validate($request, [
+			'console-pass' => 'required|min:4',
+			'console-command' => 'required|min:2',
+			'memo' => 'required'
+		]);
+
 		if ($request->input('console-pass') !== NULL) {
  			Settings::change('console-pass', $request->input('console-pass'));
 		}
@@ -85,44 +90,48 @@ class AdminController extends Controller
 			Settings::change('memo', $request->input('memo'));
 		}
 
+		Session::flash('flash_message', 'Console instellingen gewijzigd!');
 		return redirect()->back();
 	}
+
 	protected function resetconsole(Request $request) {
 		Settings::change('console-pass', Settings::getByTerm('console-pass-default'));
 		Settings::change('console-command', Settings::getByTerm('console-command-default'));
 		Settings::change('memo', Settings::getByTerm('memo-default'));
 
+		Session::flash('flash_message', 'Standaard console-instellingen hersteld!');
 		return redirect()->back();
 	}
-	protected function  stopgame(Request $request) {
+
+	// TIMER CONTROLS
+	protected function startgame(Request $request) {
 		if ($request->ajax()) {
-			shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py stop');
+            Control::start();
 		}
 	}
-	protected function  pausegame(Request $request) {
+	protected function stopgame(Request $request) {
 		if ($request->ajax()) {
-                        shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py pause');
+			Control::stop();
 		}
 	}
-        protected function  penalty(Request $request) {
+	protected function pausegame(Request $request) {
 		if ($request->ajax()) {
-                        shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py penalty');
+        	Control::pause();
+		}
+	}
+    protected function penalty(Request $request) {
+		if ($request->ajax()) {
+			Control::penalty();
 		}
 	}
 	protected function started(Request $request) {
 		if ($request->ajax()) {
-			return $this->getStarted();
+			return Control::active();
 		}
 	}
 	protected function paused(Request $request) {
 		if ($request->ajax()) {
-			return $this->getPaused();
+			return Control::paused();
 		}
-	}
-	protected function getStarted() {
-		return shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py started');
-	}
-	protected function getPaused() {
-		return shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py paused');
 	}
 }

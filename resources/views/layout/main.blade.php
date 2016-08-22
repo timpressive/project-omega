@@ -28,13 +28,18 @@
 			@endif
 		</div>
 		@endif
+
+		@include('partial.win')
+		@include('partial.lose')
+		
 		<div class="container">
 			@yield('content')
 		</div>
-		<script>var base_url = '{{ url('/') }}'</script>
 
+		<script>var base_url = '{{ url('/') }}'</script>
 		<script src="{{ asset('js/lib/jquery-2.2.3.min.js' )}}"></script>
 		<script src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('js/poll-win.js') }}"></script>
 		@yield('js')
 	</body>
 </html>
