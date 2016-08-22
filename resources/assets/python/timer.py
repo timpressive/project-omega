@@ -1,5 +1,8 @@
 #& /usr//bin/python2.7
 
+from tendo import singleton
+me = singleton.SingleInstance()
+
 import wiringpi as wiringpi
 import time
 import sys
@@ -31,6 +34,7 @@ CLOCK_S1 = 67
 
 MSBFIRST = 1
 
+ON = 94
 OFF = 95
 PAUSE = 96
 PENALTY = 97
@@ -66,10 +70,12 @@ wiringpi.pinMode(DATA_H2,1)
 wiringpi.pinMode(LATCH_H2,1)
 wiringpi.pinMode(CLOCK_H2,1)
 
+wiringpi.pinMode(ON, 1)
 wiringpi.pinMode(OFF, 1)
 wiringpi.pinMode(PAUSE, 1)
 wiringpi.pinMode(PENALTY, 1)
 
+wiringpi.digitalWrite(ON, 1)
 wiringpi.digitalWrite(OFF, 0)
 wiringpi.digitalWrite(PAUSE, 0)
 wiringpi.digitalWrite(PENALTY, 0)
@@ -85,6 +91,8 @@ def padZero(number):
 	return number
 
 def countdown():
+	wiringpi.digitalWrite(ON, 1)
+
 	global end
 	remaining = int(end - time.time())
 
@@ -124,19 +132,16 @@ def countdown():
 		if wiringpi.digitalRead(PAUSE) == 1:
 			end = time.time() + remaining
 
+		remaining = int(end - time.time())
 
 		if wiringpi.digitalRead(OFF) == 1:
 			wiringpi.digitalWrite(OFF, 0)
-			turnOff()
+			remaining = 0
 
-		remaining = int(end - time.time())
 		pass
 	
 
-	turnOff()	
-	print "Virus verspreiden..."
-	time.sleep(2.5)
-	print "Apocalypse gestart"
+	turnOff()
 
 # takes latch, clock and data pins and number to be written  for positions
 # switches number to binary representation on 7-seg display and shifts it out
@@ -179,5 +184,8 @@ def turnOff():
 	writeNo(10, LATCH_M2, DATA_M2, CLOCK_M2)
 	writeNo(10, LATCH_H1, DATA_H1, CLOCK_H1)
 	writeNo(10, LATCH_H2, DATA_H2, CLOCK_H2)
+
+	# give the turn off command	
+	wiringpi.digitalWrite(ON, 0)
 
 countdown()

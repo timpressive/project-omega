@@ -1,13 +1,16 @@
+import wiringpi as wiringpi
 import sys
-import wiringpi
-import sleep from time
+from time import sleep
 
-function = argv[1]
-OFF = 83
-PAUSE = 84
-PENALTY = 84
+function = sys.argv[1]
+ON = 94
+OFF = 95
+PAUSE = 96
+PENALTY = 97
 
-wiringpi.mcp23017(81, 0x27)
+wiringpi.wiringPiSetup()
+
+wiringpi.mcp23017Setup(81, 0x21)
 wiringpi.pinMode(OFF, 1)
 wiringpi.pinMode(PAUSE, 1)
 wiringpi.pinMode(PENALTY, 1)
@@ -21,10 +24,21 @@ def togglePause():
 
 def penalty():
 	wiringpi.digitalWrite(PENALTY, 1)
-	
+
+def getPaused():
+	return wiringpi.digitalRead(PAUSE)
+
+def getStarted():
+	return wiringpi.digitalRead(ON)
+
+
 if function == "stop":
 	stopTimer()
 elif function == "pause":
 	togglePause()
 elif function == "penalty":
 	penalty()
+elif function == "paused":
+	getPaused()
+elif function == 'started':
+	getStarted()

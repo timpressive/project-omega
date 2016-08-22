@@ -17,9 +17,9 @@
 						<input id="pin-code" type="text" name="pin-code" placeholder="pincode" value="{{ $settings['pin-code'] }}">
 					</li>
 					<button type="submit" class="btn btn-submit">Opslaan</button>
-				</ul>	
+				</ul>
 			</form>
-			<h4>Console opties</h4>			
+			<h4>Console opties</h4>
 			<p class="alert-warning">OPGEPAST! Het wijzigen van de memo tekst en/of het console commando kunnen het spel breken. Het is zeer belangrijk dat deze twee op elkaar zijn afgestemd (zie voorbeeld of spelfiche).</p>
 			<form action="admin/game/setconsole" method="POST">
 				{{csrf_field()}}

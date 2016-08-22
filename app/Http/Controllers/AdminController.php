@@ -16,7 +16,10 @@ class AdminController extends Controller
 	}
 
 	protected function game() {
-		return view('admin.controls');
+		$started = $this->getstarted();
+		$paused = $this->getPaused();
+
+		return view('admin.controls')->with(['started' => $started, 'paused' => $paused]);
 	}
 
 	protected function settings() {
@@ -65,11 +68,11 @@ class AdminController extends Controller
 		return redirect()->back();
 	}
 
-	protected function startcountdown() {
-		$duration = Settings::getByTerm('time');
-		exec('sudo python /var/www/project-omega/resources/assets/python/timer.py '.$duration, $out);
-
-		return $out;
+	protected function startcountdown(Request $request) {
+		if ($request->ajax()) {
+                        $duration = Settings::getByTerm('time');
+			shell_exec('sudo python /var/www/project-omega/resources/assets/python/timer.py '.$duration);
+		}
 	}
 	protected function setconsole(Request $request) {
 		if ($request->input('console-pass') !== NULL) {
@@ -91,13 +94,35 @@ class AdminController extends Controller
 
 		return redirect()->back();
 	}
-	protected function  stopGame() {
-		shell_exec();
+	protected function  stopgame(Request $request) {
+		if ($request->ajax()) {
+			shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py stop');
+		}
 	}
-	protected function  pauseGame() {
-		shell_exec();
-        }
-        protected function  penalty() {
-		shell_exec();
+	protected function  pausegame(Request $request) {
+		if ($request->ajax()) {
+                        shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py pause');
+		}
+	}
+        protected function  penalty(Request $request) {
+		if ($request->ajax()) {
+                        shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py penalty');
+		}
+	}
+	protected function started(Request $request) {
+		if ($request->ajax()) {
+			return $this->getStarted();
+		}
+	}
+	protected function paused(Request $request) {
+		if ($request->ajax()) {
+			return $this->getPaused();
+		}
+	}
+	protected function getStarted() {
+		return shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py started');
+	}
+	protected function getPaused() {
+		return shell_exec('sudo python /var/www/project-omega/resources/assets/python/controls.py paused');
 	}
 }

@@ -42,7 +42,6 @@ Route::group(['middleware' =>  'auth', 'prefix' => 'admin'], function() {
 	Route::post('game/setduration', 'AdminController@setduration');
 	Route::post('game/resetconsole', 'AdminController@resetconsole');
 
-	Route::get('game/start', 'AdminController@startcountdown');
 });
 
 Route::group(['prefix' => 'ajax'], function() {
@@ -50,5 +49,16 @@ Route::group(['prefix' => 'ajax'], function() {
 	Route::get('file/{name}', 'GamesController@file');
 	Route::get('keypad', 'GamesController@keypad');
 	Route::get('get-command', 'GamesController@getcommand');
+
+	Route::group(['middleware' => 'auth'], function () {
+
+		Route::get('start-game', 'AdminController@startcountdown');
+		Route::get('stop', 'AdminController@stopgame');
+		Route::get('pause-game', 'AdminController@pausegame');
+		Route::get('penalty', 'AdminController@penalty');
+		Route::get('get-active', 'AdminController@started');
+		Route::get('get-paused', 'AdminController@paused');
+
+	});
 
 });

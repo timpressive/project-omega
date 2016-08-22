@@ -13,7 +13,7 @@ class SettingsTableSeeder extends Seeder
     {
         DB::table('settings')->insert([
             'term' => 'time',
-            'value' => '3600000',
+            'value' => '3600',
         ]);
 
         DB::table('settings')->insert([
