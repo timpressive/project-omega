@@ -10,10 +10,11 @@ PENALTY = 97
 
 wiringpi.wiringPiSetup()
 
-wiringpi.mcp23017Setup(81, 0x21)
-wiringpi.pinMode(OFF, 1)
-wiringpi.pinMode(PAUSE, 1)
-wiringpi.pinMode(PENALTY, 1)
+wiringpi.mcp23017Setup(82, 0x21)
+#wiringpi.pinMode(ON, 1)
+#wiringpi.pinMode(OFF, 1)
+#wiringpi.pinMode(PAUSE, 1)
+#wiringpi.pinMode(PENALTY, 1)
 
 def stopTimer() :
 	wiringpi.digitalWrite(OFF, 1)
@@ -26,10 +27,10 @@ def penalty():
 	wiringpi.digitalWrite(PENALTY, 1)
 
 def getPaused():
-	return wiringpi.digitalRead(PAUSE)
+	print wiringpi.digitalRead(PAUSE)
 
 def getStarted():
-	return wiringpi.digitalRead(ON)
+	print wiringpi.digitalRead(ON)
 
 
 if function == "stop":

@@ -21,12 +21,6 @@ class Settings extends Model
     		->update(['value' => $value]);
     }
 
-    // protected function default() {
-    //  DB::table($table)
-    //      ->where('term')
-    //      ->update(['value', $value]);
-    // }
-
     protected function getByTerm($term) {
         return self::where('term', '=', $term)->firstOrFail()->value;
     }
@@ -34,24 +28,24 @@ class Settings extends Model
     protected function getHours() {
         $duration = $this->getByTerm('time');
 
-        $hours = floor($duration/3600000);
+        $hours = floor($duration/3600);
         return $hours;
     }
 
     protected function getMinutes() {
         $duration = $this->getByTerm('time');
 
-        $hours = floor($duration/3600000);
-        $minutes = floor(($duration - $hours*3600000) / 60000);
+        $hours = floor($duration/3600);
+        $minutes = floor(($duration - $hours*3600) / 60);
         return $minutes;
     }
 
     protected function getSeconds() {
         $duration = $this->getByTerm('time');
 
-        $hours = floor($duration/3600000);
-        $minutes = floor(($duration - $hours*3600000) / 60000);
-        $seconds = floor(($duration - $hours*3600000 - $minutes*60000) / 1000);
+        $hours = floor($duration/3600);
+        $minutes = floor(($duration - $hours*3600) / 60);
+        $seconds = floor(($duration - $hours*3600 - $minutes*60));
         return $seconds;
     }
 

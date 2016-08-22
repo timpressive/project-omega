@@ -97,44 +97,47 @@ def countdown():
 	remaining = int(end - time.time())
 
 	while remaining > 0:
-		hours   = remaining / 3600
-		minutes = (remaining - (hours * 3600)) / 60 
-		seconds = (remaining - (hours * 3600)) % 60
 
-		hours = padZero(hours)
-		minutes = padZero(minutes)
-		seconds = padZero(seconds)
+		doClock(remaining)
 
-		h1 = list(hours)[0]
-		h2 = list(hours)[1]
-
-		m1 = list(minutes)[0]
-		m2 = list(minutes)[1]
-
-		s1 = list(seconds)[0]
-		s2 = list(seconds)[1]
-
-#		if int(minutes) == 59:
-		writeNo(int(h1), LATCH_H1, DATA_H1, CLOCK_H1)
-		writeNo(int(h2), LATCH_H2, DATA_H2, CLOCK_H2)
+#		hours   = remaining / 3600
+#		minutes = (remaining - (hours * 3600)) / 60 
+#		seconds = (remaining - (hours * 3600)) % 60
+#
+#		hours = padZero(hours)
+#		minutes = padZero(minutes)
+#		seconds = padZero(seconds)
+#
+#		h1 = list(hours)[0]
+#		h2 = list(hours)[1]
+#
+#		m1 = list(minutes)[0]
+#		m2 = list(minutes)[1]
+#
+#		s1 = list(seconds)[0]
+#		s2 = list(seconds)[1]
+#
+#		writeNo(int(h1), LATCH_H1, DATA_H1, CLOCK_H1)
+#		writeNo(int(h2), LATCH_H2, DATA_H2, CLOCK_H2)
+#		
+#		writeNo(int(m1), LATCH_M1, DATA_M1, CLOCK_M1)
+#		writeNo(int(m2), LATCH_M2, DATA_M2, CLOCK_M2)
+#
+#		writeNo(int(s1), LATCH_S1, DATA_S1, CLOCK_S1)
+#		writeNo(int(s2), LATCH_S2, DATA_S2, CLOCK_S2)
 		
-#		if int(seconds) == 59:
-		writeNo(int(m1), LATCH_M1, DATA_M1, CLOCK_M1)
-		writeNo(int(m2), LATCH_M2, DATA_M2, CLOCK_M2)
-
-		writeNo(int(s1), LATCH_S1, DATA_S1, CLOCK_S1)
-		writeNo(int(s2), LATCH_S2, DATA_S2, CLOCK_S2)
-		
-		if wiringpi.digitalRead(PENALTY) == 1 and (end - time.time() > 300):
+		if wiringpi.digitalRead(PENALTY) and (end - time.time()) > 300:
                 	end -= 300
 			wiringpi.digitalWrite(PENALTY, 0)
 
-		if wiringpi.digitalRead(PAUSE) == 1:
+		if wiringpi.digitalRead(PAUSE):
+			while wiringpi.digitalRead(PAUSE):
+				pass
 			end = time.time() + remaining
 
 		remaining = int(end - time.time())
 
-		if wiringpi.digitalRead(OFF) == 1:
+		if wiringpi.digitalRead(OFF):
 			wiringpi.digitalWrite(OFF, 0)
 			remaining = 0
 
@@ -185,7 +188,34 @@ def turnOff():
 	writeNo(10, LATCH_H1, DATA_H1, CLOCK_H1)
 	writeNo(10, LATCH_H2, DATA_H2, CLOCK_H2)
 
-	# give the turn off command	
+	# indicate the game has stopped command	
 	wiringpi.digitalWrite(ON, 0)
+
+def doClock(remaining):
+	hours   = remaining / 3600
+        minutes = (remaining - (hours * 3600)) / 60
+        seconds = (remaining - (hours * 3600)) % 60
+
+        hours = padZero(hours)
+        minutes = padZero(minutes)
+        seconds = padZero(seconds)
+
+        h1 = list(hours)[0]
+        h2 = list(hours)[1]
+
+        m1 = list(minutes)[0]
+        m2 = list(minutes)[1]
+
+        s1 = list(seconds)[0]
+        s2 = list(seconds)[1]
+
+        writeNo(int(h1), LATCH_H1, DATA_H1, CLOCK_H1)
+        writeNo(int(h2), LATCH_H2, DATA_H2, CLOCK_H2)
+
+        writeNo(int(m1), LATCH_M1, DATA_M1, CLOCK_M1)
+        writeNo(int(m2), LATCH_M2, DATA_M2, CLOCK_M2)
+
+	writeNo(int(s1), LATCH_S1, DATA_S1, CLOCK_S1)
+	writeNo(int(s2), LATCH_S2, DATA_S2, CLOCK_S2)
 
 countdown()

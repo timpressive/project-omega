@@ -3,14 +3,14 @@
 @section('content')
 	<main class="controls">
 		<h2>SPEL BEHEREN</h2>
-		<a id="{{ ($started) ? 'stop' : 'start' }}" href="#" class="btn-start">{{ ($started) ? 'Stop' : 'Start'  }}</a>
+		<a id="start" href="#" class="btn-{{ ($started == 1) ? 'stop' : 'start' }} {{ ($started == 1) ? 'stop' : 'start' }}">{{ ($started == 1) ? 'Stop' : 'Start'  }}</a>
 		<div class="row">
 			<h4>STRAFFEN</h4>
-			<div class="col-md-6"><button class="btn btn-primary">Tijd aftrekken</button></div>
+			<div class="col-md-6"><button id="penalty" class="btn btn-primary">Tijd aftrekken</button></div>
 		</div>
 		<div class="row">
 			<h4>BELONEN</h4>
-			<div class="col-md-6"><button class="btn btn-primary">Spel pauzeren</button></div>
+			<div class="col-md-6"><button id="pause" class="btn btn-primary {{ ($paused == 1) ? 'unpause' : 'pause' }}">{{ ($paused == 1) ? 'Verder spelen' : 'Spel pauzeren' }}</button></div>
 		</div>
 	</main>
 @stop
@@ -18,48 +18,64 @@
 @section('js')
 	<script>
 		$(function() {
-			setInterval(getStates(), 3000);
+			setInterval(getStates, 3000);
 
-			$('#start').click(function (e) { e.preventDefault();  start(); });
-			$('#stop').click(function (e) { e.preventDefault(); stop(); });
+			$('body')
+				.on('click', '#start', function (e) {
+					e.preventDefault();
+
+					if ($(this).hasClass('start')) {
+						start($(this));
+					} else {
+						stop($(this));
+					}
+				});
+
 			$('#pause').click(function (e) { e.preventDefault(); togglePause(); });
 			$('#penalty').click(function (e) { e.preventDefault(); penalty(); });
 		});
 
-		function start() {
+		function start($this) {
+			console.log($this);
 			$.ajax({
 				url: 'ajax/start-game',
 				method: 'GET',
 				success: function () {
-					$('#start')
-						.toggleClass('btn-start')
-						.toggleClass('btn-stop')
-						.attr('id', 'stop');
+					$this
+						.removeClass('btn-start')
+						.addClass('btn-stop')
+						.removeClass('start')
+						.addClass('stop')
+						.text('Stop');
 				}
 			});
 		}
-		function stop() {
+		function stop($this) {
+			console.log($this);
 			$.ajax({
 				url: 'ajax/stop',
 				method: 'GET',
 				success: function () {
-					$('#stop')
-						.toggleClass('btn-start')
-						.toggleClass('btn-stop')
-						.attr('id', 'start');
+					$this
+						.addClass('btn-start')
+						.removeClass('btn-stop')
+						.addClass('start')
+						.removeClass('stop')
+						.text('Start');
 				}
 			});
 		}
 		function togglePause() {
 			$.ajax({
-				url: 'ajax/pause',
+				url: 'ajax/pause-game',
 				method: 'GET',
 				success: function (text) {
 					$('#pause')
 						.toggleClass('pause')
 						.toggleClass('unpause')
 						.text(text);
-				}
+				},
+				error: function (data) { console.error(data); }
 			});
 		}
 		function penalty() {
@@ -72,6 +88,7 @@
 			});
 		}
 		function getStates() {
+			console.log('states');
 			var paused, active;
 
 			$.ajax({
@@ -80,18 +97,21 @@
 				success: function (data) {
 					active = parseInt(data);
 
-					if (!active) {
-						if ($('#stop').length > 0) {
-							$('#stop')
-								.text('Start')
-								.attr('id', 'start');
-						}
-					} else {
-						if ($('#start').length > 0) {
-							$('#start')
-								.text('Stop')
-								attr('id', 'start');
-						}
+					if (active && $('#start').hasClass('start')) {
+						$('#start')
+							.text('Stop')
+							.removeClass('btn-start')
+							.addClass('btn-stop')
+							.removeClass('start')
+							.addClass('stop');
+					}
+					if (!active && $('#start').hasClass('stop')) {
+						$('#start')
+							.text('Start')
+							.removeClass('btn-stop')
+							.addClass('btn-start')
+							.removeClass('stop')
+							.addClass('start');
 					}
 				}
 			});
@@ -104,8 +124,8 @@
 
 					paused = parseInt(data);
 
-					if (paused) { text = 'Doorgaan'; }
-					else { text = 'Pauzeren'; }
+					if (paused) { text = 'Verder spelen'; }
+					else { text = 'Spel pauzeren'; }
 
 					$('#pause')
 						.toggleClass('pause')
