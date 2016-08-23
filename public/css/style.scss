@@ -12,6 +12,7 @@ h1,h2,h3, h4, h5, h6, #console { font-family: 'Commodore'; }
 body>.container { padding: 2em 5%; }
 form#auth {
 	margin: 0 auto; width: 60%; font-size: 1.5em;
+	@media #{$mobile} { width: 90%; }
 	button.submit { width: 2em; color: #fff; background-color: #000; border: none; height: 2em; }
 	input {
 		border: none; border-bottom: 1px solid black; box-shadow: none; font-size: 1em;
@@ -94,6 +95,7 @@ body:not(#admin) {
 main {
 	&#home {
 		position: absolute; top: 0; bottom: 0; left: 0; right: 0; height: 50%; margin: auto; width: 50%;
+		@media #{$mobile} { width: 70%; }
 		#logo { width: 75%; margin: 0 auto; display: block; margin-bottom: 5em; }
 	}
 }

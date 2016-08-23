@@ -34,6 +34,7 @@ CLOCK_S1 = 67
 
 MSBFIRST = 1
 
+LOSE = 92
 WIN = 93
 ON = 94
 OFF = 95
@@ -74,7 +75,8 @@ wiringpi.pinMode(CLOCK_H2,1)
 wiringpi.pinMode(ON, 1)
 wiringpi.pinMode(OFF, 1)
 
-wiringpi.pinMode(WIN, 1)
+#wiringpi.pinMode(WIN, 1)
+#wiringpi.pinMode(LOSE, 1)
 
 wiringpi.pinMode(PAUSE, 1)
 wiringpi.pinMode(PENALTY, 1)
@@ -82,8 +84,8 @@ wiringpi.pinMode(PENALTY, 1)
 wiringpi.digitalWrite(ON, 1)
 wiringpi.digitalWrite(OFF, 0)
 
-wiringpi.digitalWrite(WIN, 0)
-wiringpi.digitalWrite(WIN, 0)
+#wiringpi.digitalWrite(WIN, 0)
+#wiringpi.digitalWrite(LOSE, 0)
 
 wiringpi.digitalWrite(PAUSE, 0)
 wiringpi.digitalWrite(PENALTY, 0)
@@ -114,25 +116,33 @@ def countdown():
 
 		if wiringpi.digitalRead(PAUSE):
 			while wiringpi.digitalRead(PAUSE):
-				turnOff()
-				sleep(1)
-				doClock(remaining)
-				pass
-
+				blinkOff()
+				
 			end = time.time() + remaining
 
+
 		remaining = int(end - time.time())
+
 
 		if wiringpi.digitalRead(OFF):
 			wiringpi.digitalWrite(OFF, 0)
 			remaining = 0
 
+		if wiringpi.digitalRead(WIN):
+			i = 0
+			while i < 6:
+				blinkOff()
+				time.sleep(1)
+				doClock(remaining)
+				time.sleep(1)
+				i += 1
+				pass
+			turnOff()
+			remaining = 0
+
 		pass
 	
-
-	turnOff()
-	if wiringpi.digitalRead(WIN) == 0:
-		
+	turnOff()		
 
 
 # takes latch, clock and data pins and number to be written  for positions
@@ -169,13 +179,17 @@ def writeNo(number, latch_pin, data_pin, clock_pin):
 	wiringpi.digitalWrite(latch_pin, 1)
 
 # Remove all writing from 7-seg displays by setting all segments low
-def turnOff():
+def blinkOff():
 	writeNo(10, LATCH_S1, DATA_S1, CLOCK_S1)
-	writeNo(10, LATCH_S2, DATA_S2, CLOCK_S2)
-	writeNo(10, LATCH_M1, DATA_M1, CLOCK_M1)
-	writeNo(10, LATCH_M2, DATA_M2, CLOCK_M2)
-	writeNo(10, LATCH_H1, DATA_H1, CLOCK_H1)
-	writeNo(10, LATCH_H2, DATA_H2, CLOCK_H2)
+        writeNo(10, LATCH_S2, DATA_S2, CLOCK_S2)
+        writeNo(10, LATCH_M1, DATA_M1, CLOCK_M1)
+        writeNo(10, LATCH_M2, DATA_M2, CLOCK_M2)
+        writeNo(10, LATCH_H1, DATA_H1, CLOCK_H1)
+        writeNo(10, LATCH_H2, DATA_H2, CLOCK_H2)
+
+def turnOff():
+	# Clear 7-seg displays
+	blinkOff()
 
 	# indicate the game has stopped command	
 	wiringpi.digitalWrite(ON, 0)

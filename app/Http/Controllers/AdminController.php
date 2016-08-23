@@ -13,7 +13,7 @@ class AdminController extends Controller
 {
 	// fire up the dashboard
 	protected function index() {
-		return view('admin.dashboard')->with(['settings' => $settings]);
+		return view('admin.dashboard');
 	}
 
 	protected function game() {

@@ -25,12 +25,14 @@ var Console = {
 	// functions
 	runFunction: function(input) {
 		input = input.toLowerCase();
-		var input = input.split(' ');
-		var fn = input[0];
 
-		if (input == Console.override) {
+		console.log(Console.override);
+
+		if (input == Console.override.toLowerCase()) {
 			Console.win();
 		} else {
+			var input = input.split(' ');
+			var fn = input[0];
 			switch (fn) {
 				case 'help':
 					Console.help();
@@ -183,14 +185,14 @@ var Console = {
 			case 1:
 				setTimeout(function () {
 
-					Console.setOutput('is de container aangesloten? [j/n]');
+					Console.setOutput('dit comando stopt de verspreiding van het virus. Bent u zeker? [j/n]');
 					Console.delay('typ "j" voor ja, "n" voor nee.', 10);
 
 				}, 200);
 			    Console.stage = 2;
 				break;
 			case 2:
-				Console.delay('weet u zeker dat u het virus wilt verplaatsen? [j/n]', 300);
+				Console.delay('het virus zit al in de verstuiver, weet u zeker dat u het wilt verplaatsen? [j/n]', 300);
 			    Console.stage = 3;
 				break;
 			case 3:
@@ -205,11 +207,11 @@ var Console = {
 							Console.setOutput('klaar!', 'green');
 							setTimeout(function () {
 
-								Console.setOutput('virus klaarmaken voor verplaatsing');
+								Console.setOutput('virus klaarmaken voor verzegeling');
 								setTimeout(function () {
 
-									Console.setOutput('automatische verplaatsing mislukt. neem de manuele controle over.');
-									Console.setOutput('leid het virus langs de juiste weg naar buiten.');
+									Console.setOutput('automatische verzegeling mislukt. neem de manuele controle over.');
+									Console.setOutput('leid het virus langs de juiste weg uit de verstuiver.');
 									Console.setOutput('Let op de snelheid! Als je te snel gaat treedt de veiligheid in werking en stopt het virus.');
 									Console.setOutput('<br><br>Ben je klaar? [j/n]');
 								
@@ -237,7 +239,7 @@ var Console = {
 						setTimeout(function() {
 
 							Console.setOutput('<br><br><br>')
-							Console.setOutput('Virus omgeleid naar container. Het is nu veilig om de container te verwijderen');
+							Console.setOutput('Virus omgeleid en verzegeld. De verstuiver is nu inactief');
 							Console.setOutput('Aftellen wordt gestopt...');
 							Console.stage = 6;
 
@@ -251,9 +253,7 @@ var Console = {
 			case 6:
 				Console.loopPercentages(1);
 				$('#command').prop('disabled', 'disabled');
-				/*$.get(base_url+'/game/protocol-66', function (data) {
-
-				});*/
+				$.get(base_url+'/ajax/win', function () {} );
 				break;
 			default:
 				break;

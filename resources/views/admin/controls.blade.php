@@ -130,7 +130,7 @@
 						.toggleClass('pause')
 						.toggleClass('unpause')
 						.text(text);
-
+					console.log(paused);
 				}
 			});
 		}

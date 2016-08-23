@@ -16,7 +16,7 @@ class Game
      */
     public function handle($request, Closure $next)
     {
-        if (Control::active()) {
+        if (!Control::active()) {
             return redirect('/')->withErrors('Project Omega is momenteel niet actief');
         }
         return $next($request);

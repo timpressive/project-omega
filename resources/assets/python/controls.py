@@ -4,6 +4,7 @@ from time import sleep
 
 function = sys.argv[1]
 
+LOSE = 92
 WIN = 93
 ON = 94
 OFF = 95
@@ -14,6 +15,9 @@ wiringpi.wiringPiSetup()
 
 wiringpi.mcp23017Setup(82, 0x21)
 
+wiringpi.pinMode(WIN, 1)
+wiringpi.pinMode(LOSE, 1)
+wiringpi.pinMode(LOSE, 1)
 wiringpi.pinMode(OFF, 1)
 wiringpi.pinMode(PAUSE, 1)
 wiringpi.pinMode(PENALTY, 1)
@@ -23,6 +27,7 @@ def stopTimer() :
 
 def togglePause():
 	state = wiringpi.digitalRead(PAUSE)
+
 	wiringpi.digitalWrite(PAUSE, not state)
 
 def penalty():
@@ -39,13 +44,13 @@ def poll():
 		print 'win'
 	elif wiringpi.digitalRead(LOSE):
 		print 'lose'
-	else
+	else:
 		print 'playing'
 
 def win():
-	if wiringpi.digitalRead(LOSE) == 0 && wiringpi.digitalRead(ON) == 1:
-		wiringpi.digitalWrite(WIN, 1)
-		sleep(5)
+	if wiringpi.digitalRead(LOSE) == 0 and wiringpi.digitalRead(ON) == 1:
+		while wiringpi.digitalRead(ON):
+			wiringpi.digitalWrite(WIN, 1)
 		wiringpi.digitalWrite(WIN, 0)
 
 if function == "stop":
