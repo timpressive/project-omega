@@ -7,12 +7,8 @@ $(function() {
 	})
 })
 function equalizer($bar) {
-	// Syntax: Math.random() * (max-min = range) + min;
-	// My bars will be at least 70px, and at most 170px tall
 	var height = Math.random() * 30 + 20;
-	// Any timing would do the trick, mine is height times 7.5 to get a speedy yet bouncy vibe
 	var timing = height * 7.5;
-	// If you need to align them on a baseline, just remove this line and also the "marginTop: marg" from the "animate"
 	var marg = (50 - height) / 2;
 
 	$bar.animate({ height: height, marginTop: marg }, timing, function() {

@@ -136,5 +136,5 @@ class GamesController extends Controller
 	protected function poll(Request $request) { return Control::poll(); }
 
 	// Handle user win
-	protected function win(Request $request) { Control::poll(); }
+	protected function win(Request $request) { Control::win(); }
 }

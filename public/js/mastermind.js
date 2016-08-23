@@ -97,7 +97,7 @@ function win() {
 	if (level == 3) {
 		message = 'Code correct, toegang tot console...';
 	} else {
-		message = 'Code correct, ga naar hetg volgende niveau...';
+		message = 'Code correct, ga naar het volgende niveau...';
 	}
 
 	$('.message')
@@ -161,8 +161,10 @@ function addAttempt() {
 		.addClass('attempt')
 		.appendTo('.attempts');
 
-	$controls = $('.controls');
+	$controls = $('#mastermind .controls');
 	$controls.find('i').css('color', '');
+
+	$('html, body').scrollTop($controls.offset().top);
 }
 
 // creates solution to puzzle
