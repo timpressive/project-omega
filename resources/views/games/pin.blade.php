@@ -7,7 +7,8 @@
 			<h4>Geef de pincode in op het toestel om de console vrij te geven.</h4>
 			<p>Druk op # om te corrigeren.</p>
 			<div class="success">
-				<p>Pin code correct! <a href="console">Klik hier</a> om verder te gaan</p>
+				<h3>Pin code correct!</h3>
+				<a class="ok" href="console">Ga verder</a>
 			</div>
 		</main>
 	</div>
@@ -18,7 +19,6 @@
 		$(function (e) {
 			$('.success').hide();
 			$.get('ajax/keypad', function (data) {
-				console.log(data);
 				if (data) {
 					$('.success').show();
 				}

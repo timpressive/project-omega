@@ -37,7 +37,7 @@ class GamesController extends Controller
 	// Get mastermind
 	protected function mastermind($level) {
 		// Check for access (homepage authentication)
-		if (Control::hasAccess()) {
+		if (Control::hasAccess() == true) {
 			if (Control::hasPin()) {
 				if (Session::has('decrypted-level') && Session::get('decrypted-level') == 3) {
 					return redirect('console');

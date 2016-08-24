@@ -24,7 +24,7 @@
 
 		<h2>STATUS</h2>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-4 statbars">
 				<div class="progress">
 					<div class="progress-bar"></div>
 				</div>

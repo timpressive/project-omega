@@ -78,10 +78,10 @@ class AuthController extends Controller
     protected function access(Request $request) {
         $this->validate($request, ['code' => 'required']);
         $code = $request->input('code');
-        
+
         if(Settings::validateCode($code)) {
             $request->session()->put('access', 1);
             return redirect('overzicht');
-        } else { return redirect('/'); }
+        } else { return redirect('/')->withErrors('Toegangscode incorrect'); }
     }
 }
